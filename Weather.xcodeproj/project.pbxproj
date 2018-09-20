@@ -14,6 +14,11 @@
 		6038146C21509C220060DAB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6038146A21509C220060DAB0 /* LaunchScreen.storyboard */; };
 		6038147721509C220060DAB0 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6038147621509C220060DAB0 /* WeatherTests.swift */; };
 		6038148221509C220060DAB0 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6038148121509C220060DAB0 /* WeatherUITests.swift */; };
+		603814992152EF790060DAB0 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */; };
+		6038149B2152F05B0060DAB0 /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6038149A2152F05A0060DAB0 /* SF-Pro-Display-Ultralight.otf */; };
+		6038149D2152F8380060DAB0 /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6038149C2152F8380060DAB0 /* DayCell.swift */; };
+		6075AA07215321B5008D7EAB /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */; };
+		6075AA0921532268008D7EAB /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA0821532268008D7EAB /* CityTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 		6038147D21509C220060DAB0 /* WeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6038148121509C220060DAB0 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		6038148321509C220060DAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
+		6038149A2152F05A0060DAB0 /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		6038149C2152F8380060DAB0 /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
+		6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
+		6075AA0821532268008D7EAB /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +109,14 @@
 			children = (
 				6038146121509C200060DAB0 /* AppDelegate.swift */,
 				6038146321509C210060DAB0 /* ViewController.swift */,
+				6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */,
+				6075AA0821532268008D7EAB /* CityTableViewCell.swift */,
+				6038149C2152F8380060DAB0 /* DayCell.swift */,
 				6038146521509C210060DAB0 /* Main.storyboard */,
 				6038146821509C220060DAB0 /* Assets.xcassets */,
 				6038146A21509C220060DAB0 /* LaunchScreen.storyboard */,
+				6038149A2152F05A0060DAB0 /* SF-Pro-Display-Ultralight.otf */,
+				603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */,
 				6038146D21509C220060DAB0 /* Info.plist */,
 			);
 			path = Weather;
@@ -229,7 +244,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603814992152EF790060DAB0 /* SF-Pro-Display-Thin.otf in Resources */,
 				6038146C21509C220060DAB0 /* LaunchScreen.storyboard in Resources */,
+				6038149B2152F05B0060DAB0 /* SF-Pro-Display-Ultralight.otf in Resources */,
 				6038146921509C220060DAB0 /* Assets.xcassets in Resources */,
 				6038146721509C210060DAB0 /* Main.storyboard in Resources */,
 			);
@@ -257,6 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6038146421509C210060DAB0 /* ViewController.swift in Sources */,
+				6038149D2152F8380060DAB0 /* DayCell.swift in Sources */,
+				6075AA0921532268008D7EAB /* CityTableViewCell.swift in Sources */,
+				6075AA07215321B5008D7EAB /* CitiesTableViewController.swift in Sources */,
 				6038146221509C200060DAB0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
