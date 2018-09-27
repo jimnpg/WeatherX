@@ -80,7 +80,7 @@ class CitiesTableViewController: UITableViewController {
             let order = self.cities.map { "\($0.name!), \($0.subcountry!)" }
             let tempArray = self.cityTableViewData
             self.cityTableViewData = tempArray.reordered(defaultOrder: order)
-            self.newCity = false
+            //self.newCity = false
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
