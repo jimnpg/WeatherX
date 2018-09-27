@@ -28,6 +28,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var precipitationProbabilityLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     
+    var timer: Timer?
+    var currentDate = Date()
+    
     let days:[String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     var collectionViewData: [CollectionViewData] = []
     
@@ -35,6 +38,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let snowFilter = Snow()
     
     let locManager = CLLocationManager()
+    
+    let offline: Bool = true
     
     //TODO: Reload the view after the user confirms on location services
     override func viewDidLoad() {
@@ -48,61 +53,70 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locManager.startUpdatingLocation()
         }
         
-        var location: Location
-        
-        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() ==  .authorizedAlways) {
-
-            if let currentLocation = locManager.location {
-                print(currentLocation.coordinate.latitude)
-                print(currentLocation.coordinate.longitude)
-                location = Location(lat: currentLocation.coordinate.latitude, lng: currentLocation.coordinate.longitude)
-                
-                fetchCityAndCountry(from: currentLocation) { city, country, error in
-                    guard let city = city, let country = country, error == nil else { return }
-                    
-                    DispatchQueue.main.async {
-                        self.navigationItem.title = city
-                    }
-                }
-                
-                location.getData() { city in
-                    DispatchQueue.main.async {
-                        self.currentTimeLabel.text = city.currentTime
-                        self.sunsetLabel.text = city.sunset
-                        self.sunriseLabel.text = city.sunrise
-                        self.collectionViewData = city.collectionViewData
-                        self.currentTemperatureLabel.text = city.currentTemperature
-                        self.lowTemperatureLabel.text = city.lowTemperature
-                        self.highTemperatureLabel.text = city.highTemperature
-                        self.windSpeedLabel.text = city.windSpeed
-                        self.windDirectionLabel.text = city.windDirection
-                        self.precipitationProbabilityLabel.text = city.precipitationProbability
-                        self.humidityLabel.text = city.humidity
-                        self.hourCollectionView.reloadData()
-                    }
-                }
-            }
-        }
-        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "List")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.showCities))
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "World")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.toggleSnow))
-        
         self.navigationController?.isToolbarHidden = true
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        
-        //imageView.image = UIImage.gifImageWithURL("https://cdn.pbrd.co/images/HEMJg0u.gif")
-        imageView.image = UIImage(named: "TestBackground")
         
         //Deciding if I want to show days at the bottom or not
         self.collectionView.isHidden = true
-        
         self.collectionView.backgroundColor = UIColor.clear
         self.hourCollectionView.backgroundColor = UIColor.clear
         
+        GeoData.loadGeoData()
+        
+        imageView.image = UIImage(named: "TestBackground3")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+            self.navigationController?.navigationBar.isTranslucent = true
+            self.navigationItem.searchController?.searchBar.isHidden = true
+        }
+        
+        let cityName:String = GeoData.fetchData(entityName: "CurrentCity")
+        
+        if cityName != "" {
+            Location.getCoordinate(addressString: cityName) { (coordinate, error) in
+                
+                let location = Location(lat: coordinate.latitude, lng: coordinate.longitude)
+                
+                if !self.offline {
+                    location.getData() { city in
+                        DispatchQueue.main.async {
+                            self.currentTimeLabel.text = city.currentTime
+                            self.sunsetLabel.text = city.sunset
+                            self.sunriseLabel.text = city.sunrise
+                            self.collectionViewData = city.collectionViewData
+                            self.currentTemperatureLabel.text = city.currentTemperature
+                            self.lowTemperatureLabel.text = city.lowTemperature
+                            self.highTemperatureLabel.text = city.highTemperature
+                            self.windSpeedLabel.text = city.windSpeed
+                            self.windDirectionLabel.text = city.windDirection
+                            self.precipitationProbabilityLabel.text = city.precipitationProbability
+                            self.humidityLabel.text = city.humidity
+                            self.currentDate = city.currentDate
+                            self.hourCollectionView.reloadData()
+                        }
+                    }
+                }
+            }
+            
+            self.navigationItem.title = cityName.components(separatedBy: ",").first
+        }
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.getTimeOfDate), userInfo: nil, repeats: true)
+        
+        self.navigationItem.searchController?.searchBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        timer?.invalidate()
+        timer = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -119,6 +133,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func toggleSnow() {
         snowFilter.handleSnow(toggle: snow, view: view)
         snow = !snow
+    }
+    
+    @objc
+    func getTimeOfDate() {
+        let calendar = Calendar.current
+        if let date = calendar.date(byAdding: .second, value: 1, to: currentDate) {
+            currentTimeLabel.text = currentTimeFormatter.string(from: date)
+            currentDate = date
+        }
     }
     
 }

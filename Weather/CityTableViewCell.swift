@@ -10,7 +10,12 @@ import UIKit
 
 class CityTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var curveView: UIView!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var weatherImage: UIImageView!
+    @IBOutlet weak var cityTemperatureLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var countryLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

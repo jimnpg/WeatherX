@@ -196,3 +196,16 @@ extension UIColor {
         )
     }
 }
+
+extension Array where Element == CityTableViewData {
+    
+    func reordered(defaultOrder: [String]) -> [CityTableViewData] {
+        
+        return self.sorted { (a, b) -> Bool in
+            if let first = defaultOrder.index(of: a.city!), let second = defaultOrder.index(of: b.city!) {
+                return first < second
+            }
+            return false
+        }
+    }
+}

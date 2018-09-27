@@ -20,4 +20,5 @@ struct City {
     let windDirection: String
     let precipitationProbability: String
     let humidity: String
+    let currentDate: Date
 }

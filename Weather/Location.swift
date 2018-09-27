@@ -9,11 +9,13 @@
 import UIKit
 import Foundation
 import ForecastIO
+import CoreLocation
 
 let key: String = "559d2cbcb1143a2ef9354c0827d4c6a8"
-let darkSkyApiURL: String = "https://api.darksky.net/forecast/" //559d2cbcb1143a2ef9354c0827d4c6a8/37.8267,-122.4233"
+let darkSkyApiURL: String = "https://api.darksky.net/forecast/"
 
 let formatter = DateFormatter()
+let currentTimeFormatter = DateFormatter()
 
 class Location {
     var lat: Double
@@ -22,24 +24,21 @@ class Location {
     init(lat: Double, lng: Double) {
         self.lat = lat
         self.lng = lng
-        formatter.dateFormat = "h:mm a"
+        formatter.dateFormat = "h a"
+        currentTimeFormatter.dateFormat = "h:mm a"
         formatter.amSymbol = "AM"
+        currentTimeFormatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
+        currentTimeFormatter.pmSymbol = "PM"
     }
     
     func getData(completion: @escaping(City) -> ()) {
         let client = DarkSkyClient(apiKey: key)
-        client.units = .us
-        client.language = .english
-        
         client.getForecast(latitude: lat, longitude: lng) { result in
             switch result {
-            case .success(let currentForecast, let requestMetadata):
-                print(currentForecast.currently?.windSpeed)
-                print(currentForecast.currently?.windBearing)
-                print(currentForecast.currently?.precipitationProbability)
-                print(currentForecast.currently?.humidity)
-                formatter.locale = Locale(identifier: currentForecast.timezone)
+            case .success(let currentForecast, let _):
+                currentTimeFormatter.timeZone = TimeZone(identifier: currentForecast.timezone)
+                formatter.timeZone = TimeZone(identifier: currentForecast.timezone)
                 if let sunsetTime = currentForecast.daily?.data[0].sunsetTime {
                     if let sunriseTime = currentForecast.daily?.data[0].sunriseTime {
                         if let currentTime = currentForecast.currently?.time {
@@ -64,7 +63,7 @@ class Location {
                                                                 if let temperature = hour.temperature {
                                                                     if index == 0 {
                                                                         collectionViewData.append(CollectionViewData(hour: "Now", icon: icon, degree: String(Int(temperature))))
-                                                                        currentTemperature = "\(String(Int(temperature)))°"
+                                                                        currentTemperature = "\(String(Int(temperature)))"
                                                                     } else {
                                                                         collectionViewData.append(CollectionViewData(hour: formatter.string(from: hour.time), icon: icon, degree: String(Int(temperature))))
                                                                     }
@@ -72,14 +71,22 @@ class Location {
                                                             }
                                                         }
                                                         
-                                                        let sunset = formatter.string(from: sunsetTime)
-                                                        let sunrise = formatter.string(from: sunriseTime)
-                                                        let time = formatter.string(from: currentTime)
+                                                        let sunset = currentTimeFormatter.string(from: sunsetTime)
+                                                        let sunrise = currentTimeFormatter.string(from: sunriseTime)
+                                                        let time = currentTimeFormatter.string(from: currentTime)
                                                         
-                                                        completion(City(sunrise: sunrise, sunset: sunset, currentTime: time, collectionViewData: collectionViewData, currentTemperature: currentTemperature, lowTemperature: lowTemperature, highTemperature: highTemperature, windSpeed: windSpeed, windDirection: windDirection, precipitationProbability: precipitationProbability, humidity: humidity))
+                                                        completion(City(sunrise: sunrise, sunset: sunset, currentTime: time, collectionViewData: collectionViewData, currentTemperature: currentTemperature, lowTemperature: lowTemperature, highTemperature: highTemperature, windSpeed: windSpeed, windDirection: windDirection, precipitationProbability: precipitationProbability, humidity: humidity, currentDate: currentTime))
+                                                    } else {
+                                                        print("Could not find humidity!")
                                                     }
+                                                } else {
+                                                    print("Could not find precipitation probability!")
                                                 }
+                                            } else {
+                                                print("Could not find wind bearing!")
                                             }
+                                        } else {
+                                            print("Could not find wind speed!")
                                         }
                                     } else {
                                         print("Could not find high temperature of the day!")
@@ -101,7 +108,7 @@ class Location {
                 }
                 break
             case .failure(let error):
-                
+                print(error)
                 break
             }
         }
@@ -114,5 +121,21 @@ class Location {
         let i = Int((degrees + 11.25)/22.5)
         return directions[i % 16]
     }
-
+    
+    static func getCoordinate( addressString : String,
+                               completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?[0] {
+                    let location = placemark.location!
+                    
+                    completionHandler(location.coordinate, nil)
+                    return
+                }
+            }
+            
+            completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
+        }
+    }
 }

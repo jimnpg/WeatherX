@@ -7,100 +7,207 @@
 //
 
 import UIKit
+import CoreData
+import ForecastIO
 
 class CitiesTableViewController: UITableViewController {
 
-    let cities:[String] = ["Chicago","Denver","St. Louis","New York","San Diego"]
+    var cities:[CityData] = []
+    var coreCityData:[NSManagedObject] = []
+    var cityTableViewData:[CityTableViewData] = []
+    var offline: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.add))
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.view.backgroundColor = UIColor.white
+        self.tableView.separatorStyle = .none
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        extendedLayoutIncludesOpaqueBars = true
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.searchController?.searchBar.isHidden = true
+        
+        coreCityData = []
+        cities = []
+        cityTableViewData = []
+        
+        let (myCities, myCoreCityData) = GeoData.fetchData(entityName: "CityDataObject")
+        coreCityData = myCoreCityData
+        cities = myCities
+        
+        let myGroup = DispatchGroup()
+        
+        //Just as a note, in the future, may want to optimize this so that we make less calls to the API to save more money!
+        for city in cities {
+            myGroup.enter()
+
+            if !self.offline{
+                if let name = city.name {
+                    if let subcountry = city.subcountry {
+                        Location.getCoordinate(addressString: name) { (coordinate, error) in
+                            let location = Location(lat: coordinate.latitude, lng: coordinate.longitude)
+                            location.getData() { loc in
+                                self.cityTableViewData.append(CityTableViewData(city: "\(name), \(subcountry)", currentTemperature: loc.currentTemperature, currentTime: currentTimeFormatter.string(from: loc.currentDate), icon: loc.collectionViewData.first?.icon))
+                                myGroup.leave()
+                            }
+                        }
+                    }
+                }
+            } else {
+                if let name = city.name {
+                    if let subcountry = city.subcountry {
+                        self.cityTableViewData.append(CityTableViewData(city: "\(name), \(subcountry)", currentTemperature: "--", currentTime: "--", icon: Icon.clearDay))
+                        myGroup.leave()
+                    }
+                }
+            }
+        }
+        
+        myGroup.notify(queue: .main) {
+            let order = self.cities.map { "\($0.name!), \($0.subcountry!)" }
+            let tempArray = self.cityTableViewData
+            self.cityTableViewData = tempArray.reordered(defaultOrder: order)
+            self.newCity = false
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return cities.count
+        return cityTableViewData.count + 1
     }
 
     @objc
     func add() {
-        
+        self.performSegue(withIdentifier: "showSearch", sender: self)
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cityReuse", for: indexPath) as? CityTableViewCell
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cityReuse", for: indexPath)
+    
         if let cell = cell as? CityTableViewCell {
-            cell.titleLabel.text = cities[indexPath.row]
+            if !self.cityTableViewData.isEmpty {
+                if self.cityTableViewData.count == indexPath.row {
+                    cell.cityLabel.text = ""
+                    cell.cityTemperatureLabel.text = ""
+                    cell.countryLabel.text = ""
+                    cell.weatherImage.isHidden = true
+                    cell.addButton.isHidden = false
+                    cell.selectionStyle = .none
+                    cell.addButton.addTarget(self, action: #selector(self.add), for: .touchUpInside)
+                    cell.curveView.isHidden = true
+                } else {
+                    if let city = self.cityTableViewData[indexPath.row].city {
+                        if let temperature = self.cityTableViewData[indexPath.row].currentTemperature {
+                            if let time = self.cityTableViewData[indexPath.row].currentTime {
+                                if let icon = self.cityTableViewData[indexPath.row].icon {
+                                    cell.cityLabel.text = city
+                                    cell.cityTemperatureLabel.text = "\(temperature)°"
+                                    cell.countryLabel.text = time
+                                    cell.weatherImage.isHidden = false
+                                    cell.weatherImage?.image = UIImage(named: icon.rawValue)
+                                    cell.addButton.isHidden = true
+                                    cell.curveView.backgroundColor = UIColor(rgb: 0x72a6f9)
+                                    cell.curveView.layer.cornerRadius = 5.0
+                                    cell.curveView.isHidden = false
+                                    cell.selectionStyle = .default
+                                }
+                            }
+                        }
+                    } else {
+                        print("Can't find city name!")
+                    }
+                }
+            }
         }
-
-        return cell!
+        
+        cell.backgroundColor = UIColor.clear
+        return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
+        if indexPath.row == cityTableViewData.count {
+            return false
+        }
+        
+        if cityTableViewData.count == 1 {
+            return false
+        }
+        
         return true
     }
-    */
-
-    /*
-    // Override to support editing the table view.
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let managedContext = appDelegate.persistentContainer.viewContext
+            managedContext.delete(coreCityData[indexPath.row])
+        
+            if indexPath.row != 0 {
+                if let cityName = cityTableViewData[indexPath.row].city {
+                    if let replacementName = cityTableViewData[0].city {
+                        print(cityName)
+                        print(replacementName)
+                        GeoData.checkName(data: cityName, replacement: replacementName)
+                    }
+                }
+            } else {
+                if let cityName = cityTableViewData[indexPath.row].city {
+                    if let replacementName = cityTableViewData[1].city {
+                        print(cityName)
+                        print(replacementName)
+                        GeoData.checkName(data: cityName, replacement: replacementName)
+                    }
+                }
+            }
+            
+            cities.remove(at: indexPath.row)
+            cityTableViewData.remove(at: indexPath.row)
+            coreCityData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            
+            do {
+                try managedContext.save()
+            } catch {
+                print("Failed to save!")
+            }
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == cityTableViewData.count {
+            return
+        }
+        
+        if let city = cities[indexPath.row].name {
+            if let state = cities[indexPath.row].subcountry {
+                GeoData.saveData(entityName: "CurrentCity", data: "\(city), \(state)")
+            }
+        }
+        
+        if let navController = self.navigationController {
+            navController.popViewController(animated: true)
+        }
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
