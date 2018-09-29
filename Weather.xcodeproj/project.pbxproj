@@ -29,6 +29,8 @@
 		6075AA07215321B5008D7EAB /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */; };
 		6075AA0921532268008D7EAB /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA0821532268008D7EAB /* CityTableViewCell.swift */; };
 		60889381215BFC06004758FC /* TopDownSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60889380215BFC06004758FC /* TopDownSegue.swift */; };
+		60C2DCE5215FE8E8003C998C /* RadarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C2DCE4215FE8E8003C998C /* RadarViewController.swift */; };
+		60C2DCEA216013E7003C998C /* MyWeatherConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C2DCE9216013E7003C998C /* MyWeatherConfig.swift */; };
 		60FE82C02159531B00DC3792 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 60FE82BF2159531A00DC3792 /* cities.json */; };
 		60FE82C22159532E00DC3792 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE82C12159532E00DC3792 /* CityData.swift */; };
 		60FE82C42159708900DC3792 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE82C32159708900DC3792 /* SearchTableViewController.swift */; };
@@ -86,6 +88,8 @@
 		6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
 		6075AA0821532268008D7EAB /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		60889380215BFC06004758FC /* TopDownSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDownSegue.swift; sourceTree = "<group>"; };
+		60C2DCE4215FE8E8003C998C /* RadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarViewController.swift; sourceTree = "<group>"; };
+		60C2DCE9216013E7003C998C /* MyWeatherConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWeatherConfig.swift; sourceTree = "<group>"; };
 		60FE82BF2159531A00DC3792 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 		60FE82C12159532E00DC3792 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
 		60FE82C32159708900DC3792 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -156,7 +160,9 @@
 				6038146321509C210060DAB0 /* ViewController.swift */,
 				60FE82C32159708900DC3792 /* SearchTableViewController.swift */,
 				6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */,
+				60C2DCE4215FE8E8003C998C /* RadarViewController.swift */,
 				6014580A2154280000A7C233 /* WeatherFilters.swift */,
+				60C2DCE9216013E7003C998C /* MyWeatherConfig.swift */,
 				601458002154015200A7C233 /* Extensions.swift */,
 				6014580621540F5100A7C233 /* Location.swift */,
 				60FE82C12159532E00DC3792 /* CityData.swift */,
@@ -234,6 +240,7 @@
 				6038145B21509C200060DAB0 /* Frameworks */,
 				6038145C21509C200060DAB0 /* Resources */,
 				47BD759B5AB944D56ABD6F83 /* [CP] Embed Pods Frameworks */,
+				3BAB441EB0154BD7EBAF8C33 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -375,6 +382,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3BAB441EB0154BD7EBAF8C33 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Weather/Pods-Weather-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Weather/Pods-Weather-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		47BD759B5AB944D56ABD6F83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -382,10 +411,26 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Weather/Pods-Weather-frameworks.sh",
+				"${PODS_ROOT}/AerisWeather/lib/AerisCore.framework",
+				"${PODS_ROOT}/AerisWeather/lib/AerisCore.framework.dSYM",
+				"${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework",
+				"${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework.dSYM",
+				"${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework",
+				"${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework.dSYM",
+				"${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework",
+				"${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisCore.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/AerisCore.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisCoreUI.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/AerisCoreUI.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisWeatherKit.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/AerisWeatherKit.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisMapKit.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/AerisMapKit.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ForecastIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,12 +486,14 @@
 				6038146421509C210060DAB0 /* ViewController.swift in Sources */,
 				60FE82C22159532E00DC3792 /* CityData.swift in Sources */,
 				60FE82C42159708900DC3792 /* SearchTableViewController.swift in Sources */,
+				60C2DCEA216013E7003C998C /* MyWeatherConfig.swift in Sources */,
 				6014580721540F5100A7C233 /* Location.swift in Sources */,
 				6038149D2152F8380060DAB0 /* DayCell.swift in Sources */,
 				60889381215BFC06004758FC /* TopDownSegue.swift in Sources */,
 				6014580B2154280000A7C233 /* WeatherFilters.swift in Sources */,
 				6075AA0921532268008D7EAB /* CityTableViewCell.swift in Sources */,
 				6014580D21542E9800A7C233 /* CollectionViewData.swift in Sources */,
+				60C2DCE5215FE8E8003C998C /* RadarViewController.swift in Sources */,
 				601457FD21533E7200A7C233 /* HourCell.swift in Sources */,
 				60FE83062159A07D00DC3792 /* Model.xcdatamodeld in Sources */,
 				6014580921540F5A00A7C233 /* City.swift in Sources */,
@@ -627,7 +674,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WAQY4YN2JJ;
+				DEVELOPMENT_TEAM = 4FNJNUQ3AD;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -647,7 +694,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WAQY4YN2JJ;
+				DEVELOPMENT_TEAM = 4FNJNUQ3AD;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = (

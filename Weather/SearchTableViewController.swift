@@ -22,7 +22,6 @@ class SearchTableViewController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Cities"
         searchController.searchBar.showsCancelButton = true
-        searchController.searchBar.becomeFirstResponder()
         searchController.searchBar.delegate = self
         
         definesPresentationContext = true
@@ -41,6 +40,16 @@ class SearchTableViewController: UITableViewController {
         self.navigationController?.view.backgroundColor = UIColor.white
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.perform(#selector(self.showKeyboard), with: nil, afterDelay: 0)
+    }
+    
+    @objc
+    func showKeyboard() {
+        self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -104,7 +113,7 @@ class SearchTableViewController: UITableViewController {
             return filteredCities.count
         }
         
-        return GeoData.geoData.count
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
@@ -130,10 +139,6 @@ class SearchTableViewController: UITableViewController {
             }
             
             GeoData.saveData(entityName: "CityDataObject", data: givenCity)
-//            let citiesViewController = navController.viewControllers[1]
-//            if let controller = citiesViewController as? CitiesTableViewController {
-//                controller.newCity = true
-//            }
             navController.popViewController(animated: true)
         }
     }

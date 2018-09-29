@@ -15,7 +15,7 @@ class CitiesTableViewController: UITableViewController {
     var cities:[CityData] = []
     var coreCityData:[NSManagedObject] = []
     var cityTableViewData:[CityTableViewData] = []
-    var offline: Bool = true
+    var offline: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,17 +107,17 @@ class CitiesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cityReuse", for: indexPath)
     
         if let cell = cell as? CityTableViewCell {
-            if !self.cityTableViewData.isEmpty {
-                if self.cityTableViewData.count == indexPath.row {
-                    cell.cityLabel.text = ""
-                    cell.cityTemperatureLabel.text = ""
-                    cell.countryLabel.text = ""
-                    cell.weatherImage.isHidden = true
-                    cell.addButton.isHidden = false
-                    cell.selectionStyle = .none
-                    cell.addButton.addTarget(self, action: #selector(self.add), for: .touchUpInside)
-                    cell.curveView.isHidden = true
-                } else {
+            if self.cityTableViewData.count == indexPath.row {
+                cell.cityLabel.text = ""
+                cell.cityTemperatureLabel.text = ""
+                cell.countryLabel.text = ""
+                cell.weatherImage.isHidden = true
+                cell.addButton.isHidden = false
+                cell.selectionStyle = .none
+                cell.addButton.addTarget(self, action: #selector(self.add), for: .touchUpInside)
+                cell.curveView.isHidden = true
+            } else {
+                if !self.cityTableViewData.isEmpty {
                     if let city = self.cityTableViewData[indexPath.row].city {
                         if let temperature = self.cityTableViewData[indexPath.row].currentTemperature {
                             if let time = self.cityTableViewData[indexPath.row].currentTime {
@@ -167,16 +167,12 @@ class CitiesTableViewController: UITableViewController {
             if indexPath.row != 0 {
                 if let cityName = cityTableViewData[indexPath.row].city {
                     if let replacementName = cityTableViewData[0].city {
-                        print(cityName)
-                        print(replacementName)
                         GeoData.checkName(data: cityName, replacement: replacementName)
                     }
                 }
             } else {
                 if let cityName = cityTableViewData[indexPath.row].city {
                     if let replacementName = cityTableViewData[1].city {
-                        print(cityName)
-                        print(replacementName)
                         GeoData.checkName(data: cityName, replacement: replacementName)
                     }
                 }

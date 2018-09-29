@@ -39,7 +39,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     let locManager = CLLocationManager()
     
-    let offline: Bool = true
+    let offline: Bool = false
+    
+    var latitude: Double?
+    var longitude: Double?
     
     //TODO: Reload the view after the user confirms on location services
     override func viewDidLoad() {
@@ -54,7 +57,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "List")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.showCities))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "World")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.toggleSnow))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "World")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.radar))
         self.navigationController?.isToolbarHidden = true
         
         //Deciding if I want to show days at the bottom or not
@@ -83,6 +86,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             Location.getCoordinate(addressString: cityName) { (coordinate, error) in
                 
                 let location = Location(lat: coordinate.latitude, lng: coordinate.longitude)
+                
+                self.longitude = coordinate.longitude
+                self.latitude = coordinate.latitude
                 
                 if !self.offline {
                     location.getData() { city in
@@ -123,16 +129,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RadarViewController {
+            if let lat = latitude {
+                destination.latitude = lat
+            }
+            
+            if let lng = longitude {
+                destination.longitude = lng
+            }
+        }
+    }
 
     @objc
-    func showCities() {
-        self.performSegue(withIdentifier: "showCities", sender: self)
+    func radar() {
+        self.performSegue(withIdentifier: "showRadar", sender: self)
     }
     
     @objc
-    func toggleSnow() {
-        snowFilter.handleSnow(toggle: snow, view: view)
-        snow = !snow
+    func showCities() {
+        self.performSegue(withIdentifier: "showCities", sender: self)
     }
     
     @objc
@@ -158,6 +175,16 @@ extension ViewController:UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         if let view = collectionView as? HourCollectionView {
             let cell = view.dequeueReusableCell(withReuseIdentifier: "hourReuse", for: indexPath)
+            
+            if !collectionViewData.isEmpty {
+                if indexPath.row == 0 && collectionViewData[indexPath.row].hour == "Now" && collectionViewData[indexPath.row].icon == .snow {
+                    snow = true
+                } else {
+                    snow = false
+                }
+                snowFilter.handleSnow(toggle: snow, view: self.view)
+            }
+            
             if let cell = cell as? HourCell {
                 cell.updateCell(cellForItemAt: indexPath, collectionViewData: collectionViewData)
             }
