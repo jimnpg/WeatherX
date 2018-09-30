@@ -7,3 +7,6 @@
 <h1 align="center">
   Weather
 </h1>
+
+[![DarkSky](https://badgen.net/badge/GitHub/blue)](https://github.com/darkskyapp)
+[![Aeris iOS](https://badgen.net/badge/GitHub/blue)](https://github.com/aerisweather/Aeris-iOS-Library)
