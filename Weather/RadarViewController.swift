@@ -18,8 +18,8 @@ class RadarViewController: AWFWeatherMapViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //let layer = AWFRasterMapLayer(layerType: .radar)
-        //weatherMap.amp.addRasterLayer(layer)
+        let layer = AWFRasterMapLayer(layerType: .radar)
+        weatherMap.amp.addRasterLayer(layer)
         if let lat = latitude {
             if let lng = longitude {
                 let weather = weatherMap.mapView as! MKMapView
