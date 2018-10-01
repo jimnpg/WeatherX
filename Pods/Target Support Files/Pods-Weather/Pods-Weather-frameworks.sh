@@ -144,24 +144,16 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCore.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisCore.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCore.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisCore.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework.dSYM"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework"
-  install_dsym "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

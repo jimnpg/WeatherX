@@ -386,25 +386,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Weather/Pods-Weather-frameworks.sh",
 				"${PODS_ROOT}/AerisWeather/lib/AerisCore.framework",
-				"${PODS_ROOT}/AerisWeather/lib/AerisCore.framework.dSYM",
 				"${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework",
-				"${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework.dSYM",
 				"${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework",
-				"${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework.dSYM",
 				"${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework",
-				"${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisCore.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/AerisCore.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisCoreUI.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/AerisCoreUI.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisWeatherKit.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/AerisWeatherKit.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisMapKit.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/AerisMapKit.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ForecastIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
