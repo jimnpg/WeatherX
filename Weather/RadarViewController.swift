@@ -18,8 +18,9 @@ class RadarViewController: AWFWeatherMapViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layer = AWFRasterMapLayer(layerType: .radar)
-        weatherMap.amp.addRasterLayer(layer)
+        //TODO, on initial opening of the radar, we need to check and not do anything until loaded!
+        //let layer = AWFRasterMapLayer(layerType: .radar)
+        //weatherMap.amp.addRasterLayer(layer)
         if let lat = latitude {
             if let lng = longitude {
                 let weather = weatherMap.mapView as! MKMapView
@@ -32,11 +33,17 @@ class RadarViewController: AWFWeatherMapViewController {
         legendView.addLegend(forLayerType: AWFMapLayer.radar)
         self.navigationItem.rightBarButtonItem = nil
         
+        if GeoData.fetchData(entityName: "InitializedRadar") {
+            updateRadarView()
+        }
+    }
+    
+    @objc
+    func updateRadarView() {
         let mainSubView = self.view.subviews[3];
-        
         /*
          This is really gross, this API documentation and manipulability is AWFUL. Either I don't understand some functionality, or they wrote it to be as uncustomizable as possible. I feel the later, I've spent 2 days now trying to manipulate the view to my liking. This was my best solution and making the legend view look clean.
-        */
+         */
         if let stackView = mainSubView.subviews[0] as? UIStackView {
             if let label = stackView.subviews[0].subviews[0] as? UILabel {
                 label.text = ""
@@ -45,6 +52,15 @@ class RadarViewController: AWFWeatherMapViewController {
         
         if let button = mainSubView.subviews[1] as? UIButton {
             button.sendActions(for: .touchUpInside)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !GeoData.fetchData(entityName: "InitializedRadar") {
+            self.perform(#selector(self.updateRadarView), with: nil, afterDelay: 0)
+            GeoData.saveData(entityName: "InitializedRadar", data: true)
         }
     }
 }

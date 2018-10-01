@@ -63,6 +63,24 @@ class GeoData {
         return ""
     }
     
+    static func fetchData(entityName: String) -> Bool {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            if let context = managedContext {
+                let result = try context.fetch(request)
+                for data in result as! [NSManagedObject] {
+                    return data.value(forKey: "hasInitialized") as! Bool
+                }
+            }
+        } catch {
+            print("Failed to load notes")
+        }
+        
+        return false
+    }
+    
     static func fetchData(entityName: String) -> ([CityData], [NSManagedObject]) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.returnsObjectsAsFaults = false
@@ -109,6 +127,8 @@ class GeoData {
                 }
                 
                 entity.setValue(givenCityName, forKey: "name")
+            } else if let givenCityBool = data as? Bool {
+                entity.setValue(givenCityBool, forKey: "hasInitialized")
             }
             
             print("Saving")
