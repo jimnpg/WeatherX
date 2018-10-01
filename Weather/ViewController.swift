@@ -68,18 +68,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         GeoData.loadGeoData()
         
         imageView.image = UIImage(named: "TestBackground3")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        DispatchQueue.main.async {
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
-            self.navigationController?.navigationBar.isTranslucent = true
-            self.navigationItem.searchController?.searchBar.isHidden = true
-        }
-        
+    @objc
+    func reload() {
         let cityName:String = GeoData.fetchData(entityName: "CurrentCity")
         
         if cityName != "" {
@@ -113,6 +107,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             self.navigationItem.title = cityName.components(separatedBy: ",").first
         }
+    }
+    
+    deinit {
+        // make sure to remove the observer when this view controller is dismissed/deallocated
+        NotificationCenter.default.removeObserver(self, name: nil, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+            self.navigationController?.navigationBar.isTranslucent = true
+            self.navigationItem.searchController?.searchBar.isHidden = true
+        }
+        
+        reload()
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.getTimeOfDate), userInfo: nil, repeats: true)
         
