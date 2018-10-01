@@ -19,8 +19,8 @@ class RadarViewController: AWFWeatherMapViewController {
         super.viewDidLoad()
         
         //TODO, on initial opening of the radar, we need to check and not do anything until loaded!
-        //let layer = AWFRasterMapLayer(layerType: .radar)
-        //weatherMap.amp.addRasterLayer(layer)
+        let layer = AWFRasterMapLayer(layerType: .radar)
+        weatherMap.amp.addRasterLayer(layer)
         if let lat = latitude {
             if let lng = longitude {
                 let weather = weatherMap.mapView as! MKMapView
