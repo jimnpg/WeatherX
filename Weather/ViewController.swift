@@ -27,8 +27,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var windDirectionLabel: UILabel!
     @IBOutlet weak var precipitationProbabilityLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var loadingBackground: UIView!
+    @IBOutlet weak var loadingImage: UIImageView!
     
     var timer: Timer?
+    var loading: Timer?
     var currentDate = Date()
     
     let days:[String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -70,6 +73,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         imageView.image = UIImage(named: "TestBackground3")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
+        loading = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.loadScreen), userInfo: nil, repeats: false)
+    }
+    
+    @objc
+    func loadScreen() {
+        loading?.invalidate()
+        loading = nil
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            self.loadingImage.alpha = 0.0
+            self.loadingImage.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        }, completion: {
+            (finished: Bool) -> Void in
+            
+            self.loadingImage.isHidden = true
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+                self.loadingBackground.alpha = 0.0
+            }, completion: {
+                (finished: Bool) -> Void in
+                self.loadingBackground.isHidden = true
+            })
+        })
     }
     
     @objc

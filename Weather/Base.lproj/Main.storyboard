@@ -34,12 +34,12 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="CEW-77-QPu" kind="relationship" relationship="rootViewController" id="7ek-8H-v4E"/>
+                        <segue destination="CEW-77-QPu" kind="relationship" relationship="rootViewController" id="qEy-gO-8Bl"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tZg-cV-dPt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-730" y="66"/>
+            <point key="canvasLocation" x="-858" y="64"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="57s-Xe-5eH">
@@ -379,9 +379,27 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qLK-db-AE8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="mV5-eb-QZQ">
+                                        <rect key="frame" x="97.5" y="243.5" width="180" height="180"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="180" id="VFn-BJ-SZ7"/>
+                                            <constraint firstAttribute="height" constant="180" id="dFc-9d-I74"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="mV5-eb-QZQ" firstAttribute="centerY" secondItem="qLK-db-AE8" secondAttribute="centerY" id="m0E-al-emb"/>
+                                    <constraint firstItem="mV5-eb-QZQ" firstAttribute="centerX" secondItem="qLK-db-AE8" secondAttribute="centerX" id="qbB-QP-5XD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="xfv-ZN-awv" firstAttribute="trailing" secondItem="qLK-db-AE8" secondAttribute="trailing" id="1cY-IG-cxR"/>
                             <constraint firstItem="SIL-Uz-HGa" firstAttribute="top" secondItem="xfv-ZN-awv" secondAttribute="top" constant="210" id="1fg-GG-d0v"/>
                             <constraint firstItem="QaY-kF-vYz" firstAttribute="leading" secondItem="e07-6B-ay9" secondAttribute="trailing" constant="8" id="3AV-KP-fvR"/>
                             <constraint firstItem="QaY-kF-vYz" firstAttribute="top" secondItem="xfv-ZN-awv" secondAttribute="top" constant="240" id="73v-oE-hLW"/>
@@ -390,6 +408,7 @@
                             <constraint firstItem="xfv-ZN-awv" firstAttribute="trailing" secondItem="BoK-Nm-MV9" secondAttribute="trailing" id="9pv-hk-ZO8"/>
                             <constraint firstItem="SIL-Uz-HGa" firstAttribute="leading" secondItem="cDK-Eu-Soh" secondAttribute="trailing" constant="10" id="ClG-dQ-1cg"/>
                             <constraint firstItem="giC-Cg-PfO" firstAttribute="bottom" secondItem="3yt-PX-ht7" secondAttribute="bottom" id="EQN-Bg-2V2"/>
+                            <constraint firstItem="qLK-db-AE8" firstAttribute="leading" secondItem="xfv-ZN-awv" secondAttribute="leading" id="EfL-ei-fka"/>
                             <constraint firstAttribute="bottom" secondItem="7pE-m2-dN1" secondAttribute="bottom" constant="10" id="Fwy-pP-oF3"/>
                             <constraint firstItem="a2o-0d-pnn" firstAttribute="leading" secondItem="QaY-kF-vYz" secondAttribute="trailing" id="Ieb-Wh-f40"/>
                             <constraint firstItem="giC-Cg-PfO" firstAttribute="top" secondItem="3yt-PX-ht7" secondAttribute="top" id="J4D-ix-bed"/>
@@ -400,6 +419,8 @@
                             <constraint firstAttribute="bottom" secondItem="qz5-xz-5Gq" secondAttribute="bottom" id="VaM-9s-pg3"/>
                             <constraint firstItem="dej-YH-4mC" firstAttribute="centerX" secondItem="xfv-ZN-awv" secondAttribute="centerX" id="WC6-rR-PWY"/>
                             <constraint firstItem="Ivr-YK-ctF" firstAttribute="top" secondItem="xfv-ZN-awv" secondAttribute="top" constant="210" id="Wlk-aC-PRF"/>
+                            <constraint firstItem="qLK-db-AE8" firstAttribute="top" secondItem="3yt-PX-ht7" secondAttribute="top" id="c8B-tE-BS9"/>
+                            <constraint firstAttribute="bottom" secondItem="qLK-db-AE8" secondAttribute="bottom" id="gt2-yU-GI0"/>
                             <constraint firstItem="giC-Cg-PfO" firstAttribute="leading" secondItem="xfv-ZN-awv" secondAttribute="leading" id="iai-Md-ZMF"/>
                             <constraint firstItem="qz5-xz-5Gq" firstAttribute="top" secondItem="3yt-PX-ht7" secondAttribute="top" id="jlC-RL-JUb"/>
                             <constraint firstItem="e07-6B-ay9" firstAttribute="top" secondItem="Ivr-YK-ctF" secondAttribute="bottom" constant="9" id="juB-Hp-rl1"/>
@@ -430,6 +451,8 @@
                         <outlet property="hourCollectionView" destination="BoK-Nm-MV9" id="jm2-35-7la"/>
                         <outlet property="humidityLabel" destination="yFK-bc-NJW" id="4Ol-Xv-S0v"/>
                         <outlet property="imageView" destination="giC-Cg-PfO" id="5be-hp-xzZ"/>
+                        <outlet property="loadingBackground" destination="qLK-db-AE8" id="58V-om-rhl"/>
+                        <outlet property="loadingImage" destination="mV5-eb-QZQ" id="jAa-2S-TFa"/>
                         <outlet property="lowTemperatureLabel" destination="QaY-kF-vYz" id="mO4-NQ-gH9"/>
                         <outlet property="precipitationProbabilityLabel" destination="2zz-gO-g0u" id="3ao-wc-rqy"/>
                         <outlet property="stackView" destination="g9g-zQ-nuf" id="dKt-hW-hsM"/>
@@ -621,5 +644,6 @@
         <image name="WindSet" width="33" height="33"/>
         <image name="add2" width="33" height="33"/>
         <image name="clear-day" width="33" height="33"/>
+        <image name="logo" width="60" height="60"/>
     </resources>
 </document>
