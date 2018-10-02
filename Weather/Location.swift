@@ -67,7 +67,6 @@ class Location {
                                                                     if let icon = day.icon {
                                                                         if let lowTemp = day.temperatureLow {
                                                                             if let highTemp = day.temperatureHigh {
-                                                                                print(icon)
                                                                                 let lowestTemp = String(Int(lowTemp))
                                                                                 let highestTemp = String(Int(highTemp))
                                                                                 days.append(DailyViewData(name: dayFormatter.string(from: day.time), weather: icon, lowTemperature: lowestTemp, highTemperature: highestTemp))
