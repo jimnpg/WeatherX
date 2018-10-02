@@ -37,5 +37,8 @@ WeatherX is an iOS Application aimed to create a clean and simple UI/UX design f
     <td bgcolor="#ffffff">
     	<img width="150" src="https://github.com/gpmpn2/WeatherX/blob/master/images/radarscreen.png?raw=true">
     </td>
+    <td bgcolor="#ffffff">
+    <img width="150" src="https://github.com/gpmpn2/WeatherX/blob/master/images/loading.png?raw=true">
+    </td>
   </tr>
 </table>
