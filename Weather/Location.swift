@@ -16,6 +16,7 @@ let darkSkyApiURL: String = "https://api.darksky.net/forecast/"
 
 let formatter = DateFormatter()
 let currentTimeFormatter = DateFormatter()
+let dayFormatter = DateFormatter()
 
 class Location {
     var lat: Double
@@ -30,13 +31,14 @@ class Location {
         currentTimeFormatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         currentTimeFormatter.pmSymbol = "PM"
+        dayFormatter.dateFormat = "EEEE"
     }
     
     func getData(completion: @escaping(City) -> ()) {
         let client = DarkSkyClient(apiKey: key)
         client.getForecast(latitude: lat, longitude: lng) { result in
             switch result {
-            case .success(let currentForecast, let _):
+            case .success(let currentForecast, _):
                 currentTimeFormatter.timeZone = TimeZone(identifier: currentForecast.timezone)
                 formatter.timeZone = TimeZone(identifier: currentForecast.timezone)
                 if let sunsetTime = currentForecast.daily?.data[0].sunsetTime {
@@ -58,6 +60,24 @@ class Location {
                                                         let precipitationProbability = String(Int(round(precipitationProbability * 100)))
                                                         let humidity = String(Int(round(humidity * 100)))
                                                         
+                                                        var days: [DailyViewData] = []
+                                                        if let daily = currentForecast.daily {
+                                                            for (index, day) in daily.data.enumerated() {
+                                                                if index > 0 {
+                                                                    if let icon = day.icon {
+                                                                        if let lowTemp = day.temperatureLow {
+                                                                            if let highTemp = day.temperatureHigh {
+                                                                                print(icon)
+                                                                                let lowestTemp = String(Int(lowTemp))
+                                                                                let highestTemp = String(Int(highTemp))
+                                                                                days.append(DailyViewData(name: dayFormatter.string(from: day.time), weather: icon, lowTemperature: lowestTemp, highTemperature: highestTemp))
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         for (index, hour) in hours.enumerated() {
                                                             if let icon = hour.icon {
                                                                 if let temperature = hour.temperature {
@@ -75,7 +95,7 @@ class Location {
                                                         let sunrise = currentTimeFormatter.string(from: sunriseTime)
                                                         let time = currentTimeFormatter.string(from: currentTime)
                                                         
-                                                        completion(City(sunrise: sunrise, sunset: sunset, currentTime: time, collectionViewData: collectionViewData, currentTemperature: currentTemperature, lowTemperature: lowTemperature, highTemperature: highTemperature, windSpeed: windSpeed, windDirection: windDirection, precipitationProbability: precipitationProbability, humidity: humidity, currentDate: currentTime))
+                                                        completion(City(sunrise: sunrise, sunset: sunset, currentTime: time, collectionViewData: collectionViewData, currentTemperature: currentTemperature, lowTemperature: lowTemperature, highTemperature: highTemperature, windSpeed: windSpeed, windDirection: windDirection, precipitationProbability: precipitationProbability, humidity: humidity, currentDate: currentTime, weekInformation: days))
                                                     } else {
                                                         print("Could not find humidity!")
                                                     }

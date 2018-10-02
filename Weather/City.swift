@@ -21,4 +21,5 @@ struct City {
     let precipitationProbability: String
     let humidity: String
     let currentDate: Date
+    let weekInformation: [DailyViewData]
 }

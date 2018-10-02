@@ -63,4 +63,8 @@ class RadarViewController: AWFWeatherMapViewController {
             GeoData.saveData(entityName: "InitializedRadar", data: true)
         }
     }
+    
+    override open var shouldAutorotate: Bool {
+        return false
+    }
 }

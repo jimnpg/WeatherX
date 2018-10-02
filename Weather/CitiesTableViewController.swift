@@ -87,6 +87,10 @@ class CitiesTableViewController: UITableViewController {
         }
     }
 
+    override open var shouldAutorotate: Bool {
+        return false
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

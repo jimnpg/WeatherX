@@ -12,21 +12,24 @@ class DayCell: UICollectionViewCell {
     @IBOutlet weak var degreeLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var lowTempLabel: UILabel!
+    @IBOutlet weak var underView: UIView!
     
-    func updateCell(cellForItemAt: IndexPath, days: [String]) {
-        self.titleLabel.text = "\(days[cellForItemAt.row]) 12/16"
+    func updateCell(cellForItemAt: IndexPath, dailyViewData: [DailyViewData]) {
+        self.underView.layer.cornerRadius = 8.0
+        self.underView.layer.borderColor = UIColor.white.cgColor
+        self.underView.layer.borderWidth = 1
         
-        let lowTemp = NSMutableAttributedString(string:"18°", attributes: [NSAttributedStringKey.foregroundColor : UIColor(rgb: 0x83adef)])
-        
-        let divider = NSMutableAttributedString(string:"|", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
-        
-        let highTemp = NSMutableAttributedString(string:"25°", attributes: [NSAttributedStringKey.foregroundColor : UIColor(rgb: 0xef8282)])
-        
-        lowTemp.append(divider)
-        lowTemp.append(highTemp)
-        
-        self.degreeLabel.attributedText = lowTemp
-        
-        self.image.image = UIImage(named: "Sun")
+        if !dailyViewData.isEmpty {
+            self.titleLabel.text = dailyViewData[cellForItemAt.row].name
+            self.degreeLabel.text = "\(dailyViewData[cellForItemAt.row].highTemperature)°"
+            self.lowTempLabel.text = "\(dailyViewData[cellForItemAt.row].lowTemperature)°"
+            self.image.image = UIImage(named: dailyViewData[cellForItemAt.row].weather.rawValue)
+        } else {
+            self.titleLabel.text = ""
+            self.degreeLabel.text = "--°"
+            self.lowTempLabel.text = "--°"
+            self.image.image = UIImage(named: "clear-day")
+        }
     }
 }

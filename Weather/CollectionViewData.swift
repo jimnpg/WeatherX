@@ -20,3 +20,17 @@ class CollectionViewData {
         self.degree = degree
     }
 }
+
+class DailyViewData {
+    let name: String
+    let weather: Icon
+    let lowTemperature: String
+    let highTemperature: String
+    
+    init(name: String, weather: Icon, lowTemperature: String, highTemperature: String) {
+        self.name = name
+        self.weather = weather
+        self.lowTemperature = lowTemperature
+        self.highTemperature = highTemperature
+    }
+}

@@ -16,19 +16,11 @@ class HourCell: UICollectionViewCell {
     func updateCell(cellForItemAt: IndexPath, collectionViewData: [CollectionViewData]) {
         if collectionViewData.isEmpty {
             self.titleLabel.text = "--"
-        } else {
-            self.titleLabel.text = collectionViewData[cellForItemAt.row].hour
-        }
-        
-        if collectionViewData.isEmpty {
             self.degreeLabel.text = "--°"
-        } else {
-            self.degreeLabel.text = "\(collectionViewData[cellForItemAt.row].degree)°"
-        }
-        
-        if collectionViewData.isEmpty {
             self.image.image = UIImage(named: "clear-day")
         } else {
+            self.titleLabel.text = collectionViewData[cellForItemAt.row].hour
+            self.degreeLabel.text = "\(collectionViewData[cellForItemAt.row].degree)°"
             self.image.image = UIImage(named: collectionViewData[cellForItemAt.row].icon.rawValue)
         }
     }

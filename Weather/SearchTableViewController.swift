@@ -40,6 +40,10 @@ class SearchTableViewController: UITableViewController {
         self.navigationController?.view.backgroundColor = UIColor.white
     }
 
+    override open var shouldAutorotate: Bool {
+        return false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.perform(#selector(self.showKeyboard), with: nil, afterDelay: 0)

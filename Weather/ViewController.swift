@@ -29,16 +29,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var loadingBackground: UIView!
     @IBOutlet weak var loadingImage: UIImageView!
+    @IBOutlet weak var windImage: UIImageView!
+    @IBOutlet weak var humidityImage: UIImageView!
     
     var timer: Timer?
     var loading: Timer?
     var currentDate = Date()
     
-    let days:[String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     var collectionViewData: [CollectionViewData] = []
+    var dailyViewData: [DailyViewData] = []
     
     var snow = false
     let snowFilter = Snow()
+    
+    var gifs = true
     
     let locManager = CLLocationManager()
     
@@ -47,6 +51,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var latitude: Double?
     var longitude: Double?
     
+    @IBAction func handleSnowTest(_ sender: Any) {
+        snow = !snow
+        snowFilter.handleSnow(toggle: snow, view: self.view)
+    }
+    @IBAction func handleGifImageTest(_ sender: Any) {
+        if gifs {
+            windImage.image = UIImage.gifImageWithName("wind")
+            humidityImage.image = UIImage.gifImageWithName("humidity")
+        } else {
+            windImage.image = UIImage(named: "WindSet")
+            humidityImage.image = UIImage(named: "humidity")
+        }
+        
+        gifs = !gifs
+    }
     //TODO: Reload the view after the user confirms on location services
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +83,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationController?.isToolbarHidden = true
         
         //Deciding if I want to show days at the bottom or not
-        self.collectionView.isHidden = true
+        self.collectionView.isHidden = false
         self.collectionView.backgroundColor = UIColor.clear
         self.hourCollectionView.backgroundColor = UIColor.clear
         
@@ -116,6 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             self.sunsetLabel.text = city.sunset
                             self.sunriseLabel.text = city.sunrise
                             self.collectionViewData = city.collectionViewData
+                            self.dailyViewData = city.weekInformation
                             self.currentTemperatureLabel.text = city.currentTemperature
                             self.lowTemperatureLabel.text = city.lowTemperature
                             self.highTemperatureLabel.text = city.highTemperature
@@ -125,6 +145,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             self.humidityLabel.text = city.humidity
                             self.currentDate = city.currentDate
                             self.hourCollectionView.reloadData()
+                            self.collectionView.reloadData()
                         }
                     }
                 }
@@ -137,6 +158,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     deinit {
         // make sure to remove the observer when this view controller is dismissed/deallocated
         NotificationCenter.default.removeObserver(self, name: nil, object: nil)
+    }
+    
+    override open var shouldAutorotate: Bool {
+        return false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -205,7 +230,7 @@ extension ViewController:UICollectionViewDelegate, UICollectionViewDataSource {
         if ((collectionView as? HourCollectionView) != nil) {
             return 24 //24 hours in a day
         } else {
-            return days.count
+            return 6 //6 days in a week (excluding current day)
         }
     }
     
@@ -229,7 +254,7 @@ extension ViewController:UICollectionViewDelegate, UICollectionViewDataSource {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "reuse", for: indexPath)
             if let cell = cell as? DayCell {
-                cell.updateCell(cellForItemAt: indexPath, days: days)
+                cell.updateCell(cellForItemAt: indexPath, dailyViewData: dailyViewData)
             }
             return cell
         }
