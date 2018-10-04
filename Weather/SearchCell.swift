@@ -10,6 +10,7 @@ import UIKit
 
 class SearchCell: UITableViewCell {
 
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var countryName: UILabel!
     @IBOutlet weak var cityName: UILabel!

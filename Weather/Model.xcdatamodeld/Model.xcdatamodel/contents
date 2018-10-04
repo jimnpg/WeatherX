@@ -9,12 +9,8 @@
     <entity name="CurrentCity" representedClassName="CurrentCity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="InitializedRadar" representedClassName="InitializedRadar" syncable="YES" codeGenerationType="class">
-        <attribute name="hasInitialized" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-    </entity>
     <elements>
         <element name="CityDataObject" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="CurrentCity" positionX="-54" positionY="18" width="128" height="60"/>
-        <element name="InitializedRadar" positionX="-54" positionY="9" width="128" height="60"/>
     </elements>
 </model>

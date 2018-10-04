@@ -82,12 +82,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "World")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.radar))
         self.navigationController?.isToolbarHidden = true
         
-        //Deciding if I want to show days at the bottom or not
-        self.collectionView.isHidden = false
         self.collectionView.backgroundColor = UIColor.clear
         self.hourCollectionView.backgroundColor = UIColor.clear
         
         GeoData.loadGeoData()
+        GeoData.loadUSData()
+        GeoData.concatData()
         
         imageView.image = UIImage(named: "TestBackground3")
         

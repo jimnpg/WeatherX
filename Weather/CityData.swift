@@ -18,6 +18,8 @@ struct CityData: Codable {
     let subcountry: String?
 }
 
+typealias LocalData = [String: [String]]
+
 struct CityTableViewData {
     let city: String?
     let currentTemperature: String?
@@ -29,12 +31,12 @@ class GeoData {
     static var geoData: [CityData] = []
     static let appDelegate = UIApplication.shared.delegate as? AppDelegate
     static let managedContext = appDelegate?.persistentContainer.viewContext
+    static var localData: LocalData = [:]
     
     static func loadGeoData() {
         if let path = Bundle.main.path(forResource: "cities", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                print(data)
                 let jsonData = try? JSONDecoder().decode([CityData].self, from: data)
                 if let parseData = jsonData {
                     geoData = parseData
@@ -43,6 +45,30 @@ class GeoData {
                 print("Error parsing json")
             }
         }
+    }
+    
+    static func loadUSData() {
+        if let path = Bundle.main.path(forResource: "data", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonData = try? JSONDecoder().decode(LocalData.self, from: data)
+                if let parseData = jsonData {
+                    localData = parseData
+                }
+            } catch {
+                print("Error parsing json")
+            }
+        }
+    }
+    
+    static func concatData() {
+        for (state, cities) in localData {
+            for city in cities {
+                geoData.append(CityData(country: "United States", geonameid: 0, name: city.lowercased().localizedCapitalized, subcountry: state))
+            }
+        }
+        
+        self.geoData = geoData.unique{"\($0.name ?? "") \($0.subcountry ?? "")"}
     }
     
     static func fetchData(entityName: String) -> String {
@@ -61,24 +87,6 @@ class GeoData {
         }
         
         return ""
-    }
-    
-    static func fetchData(entityName: String) -> Bool {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            if let context = managedContext {
-                let result = try context.fetch(request)
-                for data in result as! [NSManagedObject] {
-                    return data.value(forKey: "hasInitialized") as! Bool
-                }
-            }
-        } catch {
-            print("Failed to load notes")
-        }
-        
-        return false
     }
     
     static func fetchData(entityName: String) -> ([CityData], [NSManagedObject]) {
@@ -127,8 +135,6 @@ class GeoData {
                 }
                 
                 entity.setValue(givenCityName, forKey: "name")
-            } else if let givenCityBool = data as? Bool {
-                entity.setValue(givenCityBool, forKey: "hasInitialized")
             }
             
             print("Saving")

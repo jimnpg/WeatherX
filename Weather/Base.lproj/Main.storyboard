@@ -650,6 +650,12 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yqo-mi-EZJ">
+                                            <rect key="frame" x="169" y="12" width="37" height="20"/>
+                                            <fontDescription key="fontDescription" name="SFProDisplay-Thin" family="SF Pro Display" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
@@ -657,9 +663,11 @@
                                         <constraint firstItem="ldQ-CB-Sxk" firstAttribute="top" secondItem="eco-Kq-e3w" secondAttribute="top" constant="2" id="PDb-j3-gwr"/>
                                         <constraint firstItem="Tj9-Cv-2oG" firstAttribute="top" secondItem="eco-Kq-e3w" secondAttribute="top" constant="7" id="Tt7-fT-94F"/>
                                         <constraint firstAttribute="bottom" secondItem="ldQ-CB-Sxk" secondAttribute="bottom" constant="2" id="YCH-Uh-oYV"/>
+                                        <constraint firstItem="Yqo-mi-EZJ" firstAttribute="centerY" secondItem="eco-Kq-e3w" secondAttribute="centerY" id="Z9E-A8-gMI"/>
                                         <constraint firstAttribute="trailing" secondItem="ldQ-CB-Sxk" secondAttribute="trailing" constant="2" id="b8N-Qw-rcC"/>
                                         <constraint firstItem="Tj9-Cv-2oG" firstAttribute="leading" secondItem="eco-Kq-e3w" secondAttribute="leading" constant="5" id="f5G-fN-TEm"/>
                                         <constraint firstItem="w8R-D2-Urk" firstAttribute="leading" secondItem="eco-Kq-e3w" secondAttribute="leading" constant="5" id="itW-ZA-jGW"/>
+                                        <constraint firstItem="Yqo-mi-EZJ" firstAttribute="centerX" secondItem="eco-Kq-e3w" secondAttribute="centerX" id="nwA-20-P9d"/>
                                         <constraint firstItem="ldQ-CB-Sxk" firstAttribute="leading" secondItem="eco-Kq-e3w" secondAttribute="leading" constant="2" id="yjD-HG-VSp"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -667,6 +675,7 @@
                                     <outlet property="bgView" destination="ldQ-CB-Sxk" id="ngA-1Y-WqC"/>
                                     <outlet property="cityName" destination="Tj9-Cv-2oG" id="nHb-J5-i5Q"/>
                                     <outlet property="countryName" destination="w8R-D2-Urk" id="aBS-ac-ldl"/>
+                                    <outlet property="infoLabel" destination="Yqo-mi-EZJ" id="xKd-Gt-Fnb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

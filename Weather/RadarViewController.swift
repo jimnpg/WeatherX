@@ -15,6 +15,8 @@ class RadarViewController: AWFWeatherMapViewController {
     var latitude: Double?
     var longitude: Double?
     
+    var letAppear: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,8 +34,10 @@ class RadarViewController: AWFWeatherMapViewController {
         
         legendView.addLegend(forLayerType: AWFMapLayer.radar)
         self.navigationItem.rightBarButtonItem = nil
-        
-        if GeoData.fetchData(entityName: "InitializedRadar") {
+
+        if self.view.subviews[3].subviews[0].subviews.isEmpty {
+            letAppear = true
+        } else {
             updateRadarView()
         }
     }
@@ -58,9 +62,9 @@ class RadarViewController: AWFWeatherMapViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if !GeoData.fetchData(entityName: "InitializedRadar") {
-            self.perform(#selector(self.updateRadarView), with: nil, afterDelay: 0)
-            GeoData.saveData(entityName: "InitializedRadar", data: true)
+        if letAppear {
+            self.perform(#selector(self.updateRadarView), with: nil, afterDelay: 0.2)
+            letAppear = false
         }
     }
     

@@ -212,6 +212,21 @@ extension Array where Element == CityTableViewData {
     }
 }
 
+extension Array {
+    func unique<T:Hashable>(map: ((Element) -> (T)))  -> [Element] {
+        var set = Set<T>() //the unique list kept in a Set for fast retrieval
+        var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
+        for value in self {
+            if !set.contains(map(value)) {
+                set.insert(map(value))
+                arrayOrdered.append(value)
+            }
+        }
+        
+        return arrayOrdered
+    }
+}
+
 func processPixels(in image: UIImage) -> UIImage? {
     guard let inputCGImage = image.cgImage else {
         print("unable to get cgImage")
@@ -306,5 +321,15 @@ struct RGBA32: Equatable {
     
     static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
         return lhs.color == rhs.color
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

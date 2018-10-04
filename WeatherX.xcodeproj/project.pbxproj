@@ -30,6 +30,7 @@
 		6038149D2152F8380060DAB0 /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6038149C2152F8380060DAB0 /* DayCell.swift */; };
 		6075AA07215321B5008D7EAB /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */; };
 		6075AA0921532268008D7EAB /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AA0821532268008D7EAB /* CityTableViewCell.swift */; };
+		6083E0A421666E1D00CA3F85 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 6083E0A321666E1D00CA3F85 /* data.json */; };
 		60889381215BFC06004758FC /* TopDownSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60889380215BFC06004758FC /* TopDownSegue.swift */; };
 		60C2DCE5215FE8E8003C998C /* RadarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C2DCE4215FE8E8003C998C /* RadarViewController.swift */; };
 		60FE82C02159531B00DC3792 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 60FE82BF2159531A00DC3792 /* cities.json */; };
@@ -90,6 +91,7 @@
 		6038149C2152F8380060DAB0 /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
 		6075AA06215321B5008D7EAB /* CitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
 		6075AA0821532268008D7EAB /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
+		6083E0A321666E1D00CA3F85 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		60889380215BFC06004758FC /* TopDownSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDownSegue.swift; sourceTree = "<group>"; };
 		60C2DCE4215FE8E8003C998C /* RadarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarViewController.swift; sourceTree = "<group>"; };
 		60FE82BF2159531A00DC3792 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				601457FA215336DF00A7C233 /* SF-Pro-Display-Bold.otf */,
 				603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */,
 				60FE82BF2159531A00DC3792 /* cities.json */,
+				6083E0A321666E1D00CA3F85 /* data.json */,
 				6038146D21509C220060DAB0 /* Info.plist */,
 			);
 			path = Weather;
@@ -342,6 +345,7 @@
 				603814992152EF790060DAB0 /* SF-Pro-Display-Thin.otf in Resources */,
 				6038146C21509C220060DAB0 /* LaunchScreen.storyboard in Resources */,
 				60359EFB2163E31B00CA9594 /* wind.gif in Resources */,
+				6083E0A421666E1D00CA3F85 /* data.json in Resources */,
 				601457FB215336E400A7C233 /* SF-Pro-Display-Bold.otf in Resources */,
 				6038149B2152F05B0060DAB0 /* SF-Pro-Display-Ultralight.otf in Resources */,
 				60FE82C02159531B00DC3792 /* cities.json in Resources */,
@@ -649,7 +653,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4FNJNUQ3AD;
 				INFOPLIST_FILE = Weather/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -669,7 +673,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4FNJNUQ3AD;
 				INFOPLIST_FILE = Weather/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
