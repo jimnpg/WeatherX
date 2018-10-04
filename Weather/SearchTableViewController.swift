@@ -79,10 +79,19 @@ class SearchTableViewController: UITableViewController {
             if let subcountry = city.subcountry {
                 if let name = city.name {
                     if let country = city.country {
-                        cell.cityName.text = "\(name), \(subcountry)"
-                        cell.countryName.text = "\(country)"
-                        cell.bgView.layer.cornerRadius = 3.0
-                        cell.bgView.backgroundColor = UIColor(rgb: 0x72a6f9)
+                        if isFiltering() {
+                            cell.cityName.text = "\(name), \(subcountry)"
+                            cell.countryName.text = "\(country)"
+                            cell.bgView.layer.cornerRadius = 3.0
+                            cell.bgView.backgroundColor = UIColor(rgb: 0x72a6f9)
+                            cell.infoLabel.text = ""
+                        } else {
+                            cell.cityName.text = ""
+                            cell.countryName.text = ""
+                            cell.bgView.backgroundColor = UIColor.clear
+                            cell.infoLabel.text = "Search a city name above"
+                            cell.infoLabel.textColor = UIColor(rgb: 0x72a6f9)
+                        }
                     }
                 }
             }
@@ -117,7 +126,7 @@ class SearchTableViewController: UITableViewController {
             return filteredCities.count
         }
         
-        return 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
