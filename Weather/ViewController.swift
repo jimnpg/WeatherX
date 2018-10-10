@@ -146,6 +146,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             self.currentDate = city.currentDate
                             self.hourCollectionView.reloadData()
                             self.collectionView.reloadData()
+                            
+                            if !self.collectionViewData.isEmpty {
+                                if self.collectionViewData[0].icon == .snow {
+                                    self.snow = true
+                                } else if self.collectionViewData[0].icon != .snow {
+                                    self.snow = false
+                                }
+                                
+                                self.snowFilter.handleSnow(toggle: self.snow, view: self.view)
+                            }
                         }
                     }
                 }
@@ -237,15 +247,6 @@ extension ViewController:UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         if let view = collectionView as? HourCollectionView {
             let cell = view.dequeueReusableCell(withReuseIdentifier: "hourReuse", for: indexPath)
-            
-            if !collectionViewData.isEmpty {
-                if indexPath.row == 0 && collectionViewData[indexPath.row].hour == "Now" && collectionViewData[indexPath.row].icon == .snow {
-                    snow = true
-                } else {
-                    snow = false
-                }
-                snowFilter.handleSnow(toggle: snow, view: self.view)
-            }
             
             if let cell = cell as? HourCell {
                 cell.updateCell(cellForItemAt: indexPath, collectionViewData: collectionViewData)
