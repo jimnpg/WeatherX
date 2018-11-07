@@ -10,26 +10,23 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
+    let options:[String] = ["NASA Image of the Day", "Photo Library"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.tableView.separatorStyle = .none
+        self.navigationItem.title = "Edit Background"
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 1
+        return options.count
     }
 
     
@@ -37,17 +34,62 @@ class SettingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingsReuse", for: indexPath)
 
         if let cell = cell as? SettingsTableViewCell {
-            cell.titleLabel.text = "Astronomy"
+            cell.titleLabel.text = options[indexPath.row]
+            cell.curveView.backgroundColor = UIColor(rgb: 0x72a6f9)
+            cell.curveView.layer.cornerRadius = 5.0
+            cell.selectionStyle = .default
+            
+            if options[indexPath.row] != "NASA Image of the Day" {
+                cell.qualityControl.isHidden = true
+            } else {
+                cell.qualityControl.addTarget(self, action: #selector(self.selectQualityOption), for: .valueChanged)
+            }
         }
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        SettingsData.saveData(entityName: "Background", data: "Astronomy")
+        let alert = UIAlertController(title: nil, message: "Contacting NASA...", preferredStyle: .alert)
         
-        if let navController = self.navigationController {
-            navController.popViewController(animated: true)
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if let cell = cell as? SettingsTableViewCell {
+            SettingsData.checkNASAImage(date: Date(), force: true, option: cell.qualityControl.selectedSegmentIndex) { image in
+                if let image = image {
+                    SettingsData.saveNASAData(downloadedImage: image, quality: cell.qualityControl.selectedSegmentIndex)
+                }
+                let notification = UINotificationFeedbackGenerator()
+                notification.notificationOccurred(.success)
+                self.dismiss(animated: true, completion: {
+                    if let navController = self.navigationController {
+                        navController.popViewController(animated: true)
+                    }
+                })
+            }
+        }
+    }
+    
+    @objc
+    func selectQualityOption(qualityControl: UISegmentedControl) {
+        switch qualityControl.selectedSegmentIndex
+        {
+        case 1:
+            let alert = UIAlertController(title: "Warning!", message: "HD images take longer to load and are larger in memory.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            
+            self.present(alert, animated: true)
+        default:
+            break
         }
     }
 

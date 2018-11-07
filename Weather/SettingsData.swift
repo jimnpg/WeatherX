@@ -26,40 +26,33 @@ struct NasaData: Codable {
 
 class SettingsData {
     
-    static let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    static let managedContext = appDelegate?.persistentContainer.viewContext
-    
-    static func saveData(entityName: String, data: Any) {
-        if let context = managedContext {
-            let entity: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
-            
-            if let option = data as? String {
-                let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                let request = NSBatchDeleteRequest(fetchRequest: fetch)
-                do {
-                    try context.execute(request)
-                } catch {
-                    print("Could not delete data!")
-                }
-                
-                entity.setValue(option, forKey: "option")
-            }
-            
-            print("Saving")
-            do {
-                try context.save()
-                print("Saved Successfully")
-            } catch {
-                print("Failed saving")
-            }
+    static func loadSettings() -> Background? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return nil
         }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Background> = Background.fetchRequest()
+        
+        do {
+            let data = try managedContext.fetch(fetchRequest)
+            for result in data {
+                return result
+            }
+        } catch {
+            print("Error loading contacts!")
+        }
+        
+        return nil
     }
     
-    static func loadBackgroundOption(completion: @escaping(URL) -> ()) {
-        
+    static func loadNASAImage(date: Date, force: Bool, option: Int, completion: @escaping(URL) -> ()) {
         guard let url = URL(string: "https://api.nasa.gov/planetary/apod?api_key=Gx0ZaquZm68WEtiVgTg4c7E7ronVNWb1m1l0xp2j") else {
             return
         }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         URLSession.shared.dataTask(with: url) { (data, response
             , error) in
@@ -68,11 +61,15 @@ class SettingsData {
                 let decoder = JSONDecoder()
                 let data = try decoder.decode(NasaData.self, from: data)
                 
-                guard let hdurl = URL(string: data.hdurl) else {
+                guard let url = URL(string: (option == 0 ? data.url : data.hdurl)) else {
                     return
                 }
                 
-                completion(hdurl)
+                if dateFormatter.string(from: date) == data.date && !force {
+                    return
+                }
+                
+                completion(url)
                 
             } catch let err {
                 print("Err", err)
@@ -80,4 +77,44 @@ class SettingsData {
         }.resume()
     }
     
+    static func checkNASAImage(date: Date, force: Bool, option: Int, completion: @escaping(UIImage?) -> ()) {
+        loadNASAImage(date: date, force: force, option: option) { url in
+            DispatchQueue.main.async {
+                if let data = try? Data(contentsOf: url) {
+                    if let downloadedImage = UIImage(data: data) {
+                        completion(downloadedImage)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func saveNASAData(downloadedImage: UIImage, quality: Int) {
+        deleteAllSettingsData()
+        let foundContent = Background(quality: quality, option: "NASA", image: downloadedImage)
+        do {
+            if let context = foundContent?.managedObjectContext {
+                try context.save()
+            }
+        } catch {
+            print("Unable to save NASA content")
+        }
+    }
+    
+    static func deleteAllSettingsData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: Background.fetchRequest())
+        
+        do {
+            try managedContext.execute(batchDeleteRequest)
+            
+        } catch {
+            print("Unable to delete all records in Background entity")
+        }
+    }
 }

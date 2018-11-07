@@ -597,6 +597,7 @@
                     </tableView>
                     <connections>
                         <segue destination="cw2-4K-2HI" kind="show" identifier="showSearch" id="7sc-BI-dwA"/>
+                        <segue destination="8Ng-EX-q3W" kind="show" identifier="showSettings" id="vaB-e3-ZbZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="drA-hM-z8B" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -684,43 +685,59 @@
                             <outlet property="delegate" destination="cw2-4K-2HI" id="5ZS-ve-dVW"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <segue destination="8Ng-EX-q3W" kind="show" identifier="showSettings" id="9Nm-nI-5eW"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bFE-gm-erJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1826" y="64"/>
+            <point key="canvasLocation" x="1790" y="-417"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Settings Table View Controller-->
         <scene sceneID="mSR-rm-Oa2">
             <objects>
-                <tableViewController id="8Ng-EX-q3W" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iDu-f9-aox">
+                <tableViewController id="8Ng-EX-q3W" customClass="SettingsTableViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="74" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iDu-f9-aox">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsReuse" id="zan-uV-EpK" customClass="SettingsTableViewCell" customModule="Weather" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsReuse" rowHeight="74" id="zan-uV-EpK" customClass="SettingsTableViewCell" customModule="Weather" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="74"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zan-uV-EpK" id="ihs-kh-YKa">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="73.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lub-Wa-fxx">
+                                            <rect key="frame" x="2" y="2" width="371" height="69.666666666666671"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYe-hW-7gF">
-                                            <rect key="frame" x="166.66666666666666" y="11.333333333333336" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <rect key="frame" x="10" y="25" width="50" height="24"/>
+                                            <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="20"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="k17-jJ-KLW">
+                                            <rect key="frame" x="303" y="23" width="67" height="29"/>
+                                            <segments>
+                                                <segment title="SD"/>
+                                                <segment title="HD"/>
+                                            </segments>
+                                        </segmentedControl>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="IpY-cV-cHp"/>
-                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="centerX" secondItem="ihs-kh-YKa" secondAttribute="centerX" id="JyN-mt-aP0"/>
+                                        <constraint firstItem="lub-Wa-fxx" firstAttribute="top" secondItem="ihs-kh-YKa" secondAttribute="top" constant="2" id="7Ge-bO-wJn"/>
+                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="OSn-0d-xu3"/>
+                                        <constraint firstAttribute="trailing" secondItem="lub-Wa-fxx" secondAttribute="trailing" constant="2" id="V9f-kY-9i5"/>
+                                        <constraint firstItem="lub-Wa-fxx" firstAttribute="leading" secondItem="ihs-kh-YKa" secondAttribute="leading" constant="2" id="VpZ-Ci-sbX"/>
+                                        <constraint firstAttribute="trailing" secondItem="k17-jJ-KLW" secondAttribute="trailing" constant="5" id="g2O-BX-Ph1"/>
+                                        <constraint firstAttribute="bottom" secondItem="lub-Wa-fxx" secondAttribute="bottom" constant="2" id="hgD-Cy-is6"/>
+                                        <constraint firstItem="k17-jJ-KLW" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="mLD-5Z-9Aa"/>
+                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="leading" secondItem="ihs-kh-YKa" secondAttribute="leading" constant="10" id="rP5-na-idC"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="curveView" destination="lub-Wa-fxx" id="vy0-rF-qcN"/>
+                                    <outlet property="qualityControl" destination="k17-jJ-KLW" id="Do9-Jf-BoX"/>
                                     <outlet property="titleLabel" destination="BYe-hW-7gF" id="hYV-tT-62B"/>
                                 </connections>
                             </tableViewCell>
@@ -733,7 +750,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iBv-9x-IIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2622" y="61"/>
+            <point key="canvasLocation" x="1790" y="304"/>
         </scene>
     </scenes>
     <resources>

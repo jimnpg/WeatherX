@@ -28,6 +28,8 @@
 		603814992152EF790060DAB0 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */; };
 		6038149B2152F05B0060DAB0 /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6038149A2152F05A0060DAB0 /* SF-Pro-Display-Ultralight.otf */; };
 		6038149D2152F8380060DAB0 /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6038149C2152F8380060DAB0 /* DayCell.swift */; };
+		6039D1112193932F00B8552A /* Background+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039D10F2193932F00B8552A /* Background+CoreDataClass.swift */; };
+		6039D1122193932F00B8552A /* Background+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039D1102193932F00B8552A /* Background+CoreDataProperties.swift */; };
 		603D42A52192622E00444D58 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603D42A42192622E00444D58 /* SettingsTableViewController.swift */; };
 		603D42A72192630700444D58 /* SettingsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603D42A62192630700444D58 /* SettingsData.swift */; };
 		603D42A92192635500444D58 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603D42A82192635500444D58 /* SettingsTableViewCell.swift */; };
@@ -92,6 +94,8 @@
 		603814982152EEF50060DAB0 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
 		6038149A2152F05A0060DAB0 /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		6038149C2152F8380060DAB0 /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
+		6039D10F2193932F00B8552A /* Background+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Background+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6039D1102193932F00B8552A /* Background+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Background+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		603D42A42192622E00444D58 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		603D42A62192630700444D58 /* SettingsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsData.swift; sourceTree = "<group>"; };
 		603D42A82192635500444D58 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 		6038146021509C200060DAB0 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				6039D10F2193932F00B8552A /* Background+CoreDataClass.swift */,
+				6039D1102193932F00B8552A /* Background+CoreDataProperties.swift */,
 				6038146121509C200060DAB0 /* AppDelegate.swift */,
 				6038146321509C210060DAB0 /* ViewController.swift */,
 				60FE82C32159708900DC3792 /* SearchTableViewController.swift */,
@@ -473,6 +479,7 @@
 				6038146421509C210060DAB0 /* ViewController.swift in Sources */,
 				60FE82C22159532E00DC3792 /* CityData.swift in Sources */,
 				60FE82C42159708900DC3792 /* SearchTableViewController.swift in Sources */,
+				6039D1112193932F00B8552A /* Background+CoreDataClass.swift in Sources */,
 				6014580721540F5100A7C233 /* Location.swift in Sources */,
 				6038149D2152F8380060DAB0 /* DayCell.swift in Sources */,
 				60889381215BFC06004758FC /* TopDownSegue.swift in Sources */,
@@ -486,6 +493,7 @@
 				60FE83062159A07D00DC3792 /* Model.xcdatamodeld in Sources */,
 				6014580921540F5A00A7C233 /* City.swift in Sources */,
 				6075AA07215321B5008D7EAB /* CitiesTableViewController.swift in Sources */,
+				6039D1122193932F00B8552A /* Background+CoreDataProperties.swift in Sources */,
 				603D42A52192622E00444D58 /* SettingsTableViewController.swift in Sources */,
 				601458012154015200A7C233 /* Extensions.swift in Sources */,
 				6038146221509C200060DAB0 /* AppDelegate.swift in Sources */,

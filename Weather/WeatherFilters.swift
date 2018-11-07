@@ -14,7 +14,7 @@ class Snow {
     let snowEmitterLayer = CAEmitterLayer()
     
     func handleSnow(toggle: Bool, view: UIView) {
-        if(toggle) {
+        if toggle {
             flakeEmitterCell.contents = UIImage(named: "snowFlake")?.cgImage
             flakeEmitterCell.scale = 0.06
             flakeEmitterCell.scaleRange = 0.3

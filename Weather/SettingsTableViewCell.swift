@@ -10,7 +10,9 @@ import UIKit
 
 class SettingsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var qualityControl: UISegmentedControl!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var curveView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

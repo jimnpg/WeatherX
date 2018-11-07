@@ -51,6 +51,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var latitude: Double?
     var longitude: Double?
     
+    var settings: Background?
+    
     @IBAction func handleSnowTest(_ sender: Any) {
         snow = !snow
         snowFilter.handleSnow(toggle: snow, view: self.view)
@@ -89,29 +91,61 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         GeoData.loadUSData()
         GeoData.concatData()
         
-        self.imageView.alpha = 0.0
-        self.blurView.alpha = 0.0
+        //self.imageView.alpha = 0.0
+        //self.blurView.alpha = 0.0
         self.view.backgroundColor = UIColor(rgb: 0x72a6f9)
-        
-        SettingsData.loadBackgroundOption() { url in
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    if let downloadedImage = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            self.imageView.image = downloadedImage
-                            UIView.animate(withDuration: 1.5, animations: {
-                                self.imageView.alpha = 1.0
-                                self.blurView.alpha = 0.0
-                            })
-                        }
-                    }
-                }
-            }
-        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         loading = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.loadScreen), userInfo: nil, repeats: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+            self.navigationController?.navigationBar.isTranslucent = true
+            self.navigationItem.searchController?.searchBar.isHidden = true
+        }
+        
+        reload()
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.getTimeOfDate), userInfo: nil, repeats: true)
+        
+        self.navigationItem.searchController?.searchBar.isHidden = true
+        
+        self.imageView.alpha = 0.0
+        self.blurView.alpha = 0.0
+        
+        settings = SettingsData.loadSettings()
+        if let settings = settings {
+            if settings.option == "NASA" {
+                if let imageData = settings.backgroundImage {
+                    DispatchQueue.main.async {
+                        self.imageView.image = UIImage(data: imageData as Data)
+                        self.imageView.alpha = 1.0
+                        self.blurView.alpha = 1.0
+                    }
+                }
+                
+                if let date = settings.modifiedDate {
+                    SettingsData.checkNASAImage(date: date, force: false, option: Int(settings.quality)) { image in
+                        UIView.animate(withDuration: 1.5, animations: {
+                            self.imageView.image = image
+                        })
+                        
+                        if let image = image {
+                            SettingsData.saveNASAData(downloadedImage: image, quality: Int(settings.quality))
+                        }
+                    }
+                }
+            }
+        } else {
+            //Default background
+        }
+        
     }
     
     @objc
@@ -190,23 +224,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override open var shouldAutorotate: Bool {
         return false
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        DispatchQueue.main.async {
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
-            self.navigationController?.navigationBar.isTranslucent = true
-            self.navigationItem.searchController?.searchBar.isHidden = true
-        }
-        
-        reload()
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.getTimeOfDate), userInfo: nil, repeats: true)
-        
-        self.navigationItem.searchController?.searchBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
