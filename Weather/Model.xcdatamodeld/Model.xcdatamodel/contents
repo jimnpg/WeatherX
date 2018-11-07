@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Background" representedClassName="Background" syncable="YES" codeGenerationType="class">
+        <attribute name="option" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="CityDataObject" representedClassName="CityDataObject" syncable="YES" codeGenerationType="class">
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="geonameid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -12,5 +15,6 @@
     <elements>
         <element name="CityDataObject" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="CurrentCity" positionX="-54" positionY="18" width="128" height="60"/>
+        <element name="Background" positionX="-54" positionY="9" width="128" height="60"/>
     </elements>
 </model>

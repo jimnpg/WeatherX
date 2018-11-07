@@ -15,7 +15,7 @@ class CitiesTableViewController: UITableViewController {
     var cities:[CityData] = []
     var coreCityData:[NSManagedObject] = []
     var cityTableViewData:[CityTableViewData] = []
-    var offline: Bool = false
+    var offline: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +23,8 @@ class CitiesTableViewController: UITableViewController {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.view.backgroundColor = UIColor.white
         self.tableView.separatorStyle = .none
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(self.settings))
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,10 +104,14 @@ class CitiesTableViewController: UITableViewController {
     }
 
     @objc
+    func settings() {
+        self.performSegue(withIdentifier: "showSettings", sender: self)
+    }
+    
+    @objc
     func add() {
         self.performSegue(withIdentifier: "showSearch", sender: self)
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cityReuse", for: indexPath)

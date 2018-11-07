@@ -480,11 +480,6 @@
                             <constraint firstItem="xfv-ZN-awv" firstAttribute="trailing" secondItem="qz5-xz-5Gq" secondAttribute="trailing" id="zQU-GW-Afv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xfv-ZN-awv"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="qLK-db-AE8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="kTE-ZD-6lQ"/>
@@ -689,10 +684,56 @@
                             <outlet property="delegate" destination="cw2-4K-2HI" id="5ZS-ve-dVW"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="8Ng-EX-q3W" kind="show" identifier="showSettings" id="9Nm-nI-5eW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bFE-gm-erJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1826" y="64"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="mSR-rm-Oa2">
+            <objects>
+                <tableViewController id="8Ng-EX-q3W" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iDu-f9-aox">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsReuse" id="zan-uV-EpK" customClass="SettingsTableViewCell" customModule="Weather" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zan-uV-EpK" id="ihs-kh-YKa">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYe-hW-7gF">
+                                            <rect key="frame" x="166.66666666666666" y="11.333333333333336" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="IpY-cV-cHp"/>
+                                        <constraint firstItem="BYe-hW-7gF" firstAttribute="centerX" secondItem="ihs-kh-YKa" secondAttribute="centerX" id="JyN-mt-aP0"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="BYe-hW-7gF" id="hYV-tT-62B"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8Ng-EX-q3W" id="nFg-dI-w9i"/>
+                            <outlet property="delegate" destination="8Ng-EX-q3W" id="46t-df-edb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iBv-9x-IIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2622" y="61"/>
         </scene>
     </scenes>
     <resources>

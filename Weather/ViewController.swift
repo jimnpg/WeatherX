@@ -89,7 +89,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         GeoData.loadUSData()
         GeoData.concatData()
         
-        imageView.image = UIImage(named: "TestBackground3")
+        self.imageView.alpha = 0.0
+        self.blurView.alpha = 0.0
+        self.view.backgroundColor = UIColor(rgb: 0x72a6f9)
+        
+        SettingsData.loadBackgroundOption() { url in
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    if let downloadedImage = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self.imageView.image = downloadedImage
+                            UIView.animate(withDuration: 1.5, animations: {
+                                self.imageView.alpha = 1.0
+                                self.blurView.alpha = 0.0
+                            })
+                        }
+                    }
+                }
+            }
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
