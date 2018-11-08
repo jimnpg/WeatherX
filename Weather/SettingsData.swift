@@ -89,9 +89,9 @@ class SettingsData {
         }
     }
     
-    static func saveNASAData(downloadedImage: UIImage, quality: Int) {
+    static func saveData(downloadedImage: UIImage, quality: Int, option: String) {
         deleteAllSettingsData()
-        let foundContent = Background(quality: quality, option: "NASA", image: downloadedImage)
+        let foundContent = Background(quality: quality, option: option, image: downloadedImage)
         do {
             if let context = foundContent?.managedObjectContext {
                 try context.save()

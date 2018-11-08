@@ -137,8 +137,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         })
                         
                         if let image = image {
-                            SettingsData.saveNASAData(downloadedImage: image, quality: Int(settings.quality))
+                            SettingsData.saveData(downloadedImage: image, quality: Int(settings.quality), option: "NASA")
                         }
+                    }
+                }
+            } else if settings.option == "Photo Library" {
+                if let imageData = settings.backgroundImage {
+                    DispatchQueue.main.async {
+                        self.imageView.image = UIImage(data: imageData as Data)
+                        self.imageView.alpha = 1.0
+                        self.blurView.alpha = 1.0
                     }
                 }
             }
