@@ -62,29 +62,16 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         if indexPath.row == 0 {
             let cell = tableView.cellForRow(at: indexPath)
             
-            let alert = UIAlertController(title: nil, message: "", preferredStyle: .alert)
-            let checkBox = BEMCheckBox.init(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-            alert.view.addSubview(checkBox)
-            
-            checkBox.translatesAutoresizingMaskIntoConstraints = false
-            
-            let horConstraint = NSLayoutConstraint(item: checkBox, attribute: .centerX, relatedBy: .equal, toItem: alert.view, attribute: .centerX ,multiplier: 1.0, constant: 0.0)
-            let verConstraint = NSLayoutConstraint(item: checkBox, attribute: .centerY, relatedBy: .equal, toItem: alert.view, attribute: .centerY ,multiplier: 1.0, constant: 0.0)
-            alert.view.addConstraints([horConstraint, verConstraint])
-            alert.view.layoutIfNeeded()
-            
-            alert.view.constraints[2].isActive = false
-            alert.view.constraints[3].isActive = false
-            
-            let widthConstraint = NSLayoutConstraint(item: alert.view, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 100)
-            let heightConstraint = NSLayoutConstraint(item: alert.view, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 100)
-            
-            alert.view.addConstraints([widthConstraint, heightConstraint])
-            alert.view.layoutIfNeeded()
+            let alert = createBasicConfirmation()
             
             present(alert, animated: true, completion: nil)
             
-            checkBox.setOn(true, animated: true)
+            if let checkBox = alert.view.subviews[1] as? BEMCheckBox {
+                checkBox.setOn(true, animated: true)
+            }
+            
+            let notification = UINotificationFeedbackGenerator()
+            notification.notificationOccurred(.success)
             
             if let cell = cell as? SettingsTableViewCell {
                 SettingsData.saveData(downloadedImage: UIImage(named: "rain")!, quality: -1, option: "\(cell.colorSlider.value)")
@@ -197,10 +184,23 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             SettingsData.saveData(downloadedImage: image, quality: 0, option: "Photo Library")
         }
+        
         self.dismiss(animated: true, completion: {
-            if let navController = self.navigationController {
-                navController.popViewController(animated: true)
+            let alert = self.createBasicConfirmation()
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            if let checkBox = alert.view.subviews[1] as? BEMCheckBox {
+                checkBox.setOn(true, animated: true)
             }
+            
+            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {_ in
+                self.dismiss(animated: true, completion: {
+                    if let navController = self.navigationController {
+                        navController.popViewController(animated: true)
+                    }
+                })
+            })
         })
     }
     
@@ -242,5 +242,28 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         alert.view.addConstraints([widthConstraint, heightConstraint])
         
         checkBox.setOn(true, animated: true)
+    }
+    
+    func createBasicConfirmation() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "", preferredStyle: .alert)
+        let checkBox = BEMCheckBox.init(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+        alert.view.addSubview(checkBox)
+        
+        checkBox.translatesAutoresizingMaskIntoConstraints = false
+        
+        let horConstraint = NSLayoutConstraint(item: checkBox, attribute: .centerX, relatedBy: .equal, toItem: alert.view, attribute: .centerX ,multiplier: 1.0, constant: 0.0)
+        let verConstraint = NSLayoutConstraint(item: checkBox, attribute: .centerY, relatedBy: .equal, toItem: alert.view, attribute: .centerY ,multiplier: 1.0, constant: 0.0)
+        alert.view.addConstraints([horConstraint, verConstraint])
+        alert.view.layoutIfNeeded()
+        
+        alert.view.constraints[2].isActive = false
+        alert.view.constraints[3].isActive = false
+        
+        let widthConstraint = NSLayoutConstraint(item: alert.view, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 100)
+        let heightConstraint = NSLayoutConstraint(item: alert.view, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 100)
+        
+        alert.view.addConstraints([widthConstraint, heightConstraint])
+        alert.view.layoutIfNeeded()
+        return alert
     }
 }
