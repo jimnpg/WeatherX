@@ -91,8 +91,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         GeoData.loadUSData()
         GeoData.concatData()
         
-        //self.imageView.alpha = 0.0
-        //self.blurView.alpha = 0.0
         self.view.backgroundColor = UIColor(rgb: 0x72a6f9)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
@@ -121,6 +119,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         settings = SettingsData.loadSettings()
         if let settings = settings {
+            if settings.quality == -1 {//Special case for color option
+                if let option = settings.option {
+                    let hue = NumberFormatter().number(from: option)
+                    if let hue = hue as? CGFloat {
+                        view.backgroundColor = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+                    }
+                }
+                return
+            }
+            
             if settings.option == "NASA" {
                 if let imageData = settings.backgroundImage {
                     DispatchQueue.main.async {
@@ -187,7 +195,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         } else {
             //Default background
         }
-        
     }
     
     @objc

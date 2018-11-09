@@ -15,7 +15,7 @@ class CitiesTableViewController: UITableViewController {
     var cities:[CityData] = []
     var coreCityData:[NSManagedObject] = []
     var cityTableViewData:[CityTableViewData] = []
-    var offline: Bool = false
+    var offline: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()

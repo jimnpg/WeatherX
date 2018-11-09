@@ -723,19 +723,28 @@
                                                 <segment title="HD"/>
                                             </segments>
                                         </segmentedControl>
+                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="51i-VP-d6B">
+                                            <rect key="frame" x="110.66666666666669" y="22" width="154" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="150" id="VCU-cP-0Lb"/>
+                                            </constraints>
+                                        </slider>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="lub-Wa-fxx" firstAttribute="top" secondItem="ihs-kh-YKa" secondAttribute="top" constant="2" id="7Ge-bO-wJn"/>
                                         <constraint firstItem="BYe-hW-7gF" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="OSn-0d-xu3"/>
                                         <constraint firstAttribute="trailing" secondItem="lub-Wa-fxx" secondAttribute="trailing" constant="2" id="V9f-kY-9i5"/>
                                         <constraint firstItem="lub-Wa-fxx" firstAttribute="leading" secondItem="ihs-kh-YKa" secondAttribute="leading" constant="2" id="VpZ-Ci-sbX"/>
+                                        <constraint firstItem="51i-VP-d6B" firstAttribute="centerX" secondItem="ihs-kh-YKa" secondAttribute="centerX" id="Wem-mP-FaJ"/>
                                         <constraint firstAttribute="trailing" secondItem="k17-jJ-KLW" secondAttribute="trailing" constant="5" id="g2O-BX-Ph1"/>
+                                        <constraint firstItem="51i-VP-d6B" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="hg0-WI-QZf"/>
                                         <constraint firstAttribute="bottom" secondItem="lub-Wa-fxx" secondAttribute="bottom" constant="2" id="hgD-Cy-is6"/>
                                         <constraint firstItem="k17-jJ-KLW" firstAttribute="centerY" secondItem="ihs-kh-YKa" secondAttribute="centerY" id="mLD-5Z-9Aa"/>
                                         <constraint firstItem="BYe-hW-7gF" firstAttribute="leading" secondItem="ihs-kh-YKa" secondAttribute="leading" constant="10" id="rP5-na-idC"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="colorSlider" destination="51i-VP-d6B" id="Jd6-7S-slY"/>
                                     <outlet property="curveView" destination="lub-Wa-fxx" id="vy0-rF-qcN"/>
                                     <outlet property="qualityControl" destination="k17-jJ-KLW" id="Do9-Jf-BoX"/>
                                     <outlet property="titleLabel" destination="BYe-hW-7gF" id="hYV-tT-62B"/>

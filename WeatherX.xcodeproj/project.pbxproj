@@ -416,6 +416,7 @@
 				"${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework",
 				"${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework",
 				"${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework",
 				"${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -424,6 +425,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisCoreUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisWeatherKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AerisMapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BEMCheckBox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ForecastIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

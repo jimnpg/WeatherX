@@ -9,6 +9,7 @@ target 'Weather' do
   pod "ForecastIO"
   pod 'AerisWeather'
   pod 'AerisWeather/Maps'
+  pod 'BEMCheckBox'
  target 'WeatherTests' do
     inherit! :search_paths
     # Pods for testing

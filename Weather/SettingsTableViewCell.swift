@@ -13,6 +13,7 @@ class SettingsTableViewCell: UITableViewCell {
     @IBOutlet weak var qualityControl: UISegmentedControl!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var curveView: UIView!
+    @IBOutlet weak var colorSlider: UISlider!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

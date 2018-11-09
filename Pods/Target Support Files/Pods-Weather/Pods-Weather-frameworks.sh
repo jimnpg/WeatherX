@@ -147,6 +147,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -154,6 +155,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisCoreUI.framework"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisWeatherKit.framework"
   install_framework "${PODS_ROOT}/AerisWeather/lib/AerisMapKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ForecastIO/ForecastIO.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

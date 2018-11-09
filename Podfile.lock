@@ -8,22 +8,26 @@ PODS:
     - AerisWeather/CoreUI
   - AerisWeather/Maps (3.1.0):
     - AerisWeather/Data
+  - BEMCheckBox (1.4.1)
   - ForecastIO (5.0.0)
 
 DEPENDENCIES:
   - AerisWeather
   - AerisWeather/Maps
+  - BEMCheckBox
   - ForecastIO
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AerisWeather
+    - BEMCheckBox
     - ForecastIO
 
 SPEC CHECKSUMS:
   AerisWeather: c6eb1ad5aad3ccd43048dda5213dc350e6a1f3bc
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   ForecastIO: 013d0110a0977712624973ceb425da1936b02acf
 
-PODFILE CHECKSUM: 06551f00cb806b6a2f8b0caba57400d3ce42466c
+PODFILE CHECKSUM: 95eb03e6acc60d578ecff247b835c5a6f39bd022
 
 COCOAPODS: 1.5.3
