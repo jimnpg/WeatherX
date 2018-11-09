@@ -144,9 +144,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             } else if settings.option == "Photo Library" {
                 if let imageData = settings.backgroundImage {
                     DispatchQueue.main.async {
+                        let image = UIImage(data: imageData as Data)
+                        if let image = image {
+                            self.imageView.image = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
+                        }
+                        self.imageView.alpha = 1.0
+                        self.blurView.alpha = 1.0
+                    }
+                }
+            } else if settings.option == "Camera" {
+                if let imageData = settings.backgroundImage {
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: imageData as Data)
+                        if let image = image {
+                            self.imageView.image = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: .up)
+                        }
+                        self.imageView.alpha = 1.0
+                        self.blurView.alpha = 1.0
+                    }
+                }
+            } else if settings.option == "Random Photo" {
+                if let imageData = settings.backgroundImage {
+                    DispatchQueue.main.async {
                         self.imageView.image = UIImage(data: imageData as Data)
                         self.imageView.alpha = 1.0
                         self.blurView.alpha = 1.0
+                    }
+                }
+                
+                if let date = settings.modifiedDate {
+                    SettingsData.checkUnsplashImage(date: date, force: false, option: Int(settings.quality)) { image in
+                        UIView.animate(withDuration: 1.5, animations: {
+                            self.imageView.image = image
+                        })
+                        
+                        if let image = image {
+                            SettingsData.saveData(downloadedImage: image, quality: Int(settings.quality), option: "Random Photo")
+                        }
                     }
                 }
             }

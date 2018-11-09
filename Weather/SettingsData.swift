@@ -24,6 +24,15 @@ struct NasaData: Codable {
     }
 }
 
+struct UnsplashData: Codable {
+    let urls: Urls
+}
+
+struct Urls: Codable {
+    let raw, full, regular, small: String
+    let thumb: String
+}
+
 class SettingsData {
     
     static func loadSettings() -> Background? {
@@ -77,8 +86,51 @@ class SettingsData {
         }.resume()
     }
     
+    static func loadUnsplashImage(date: Date, force: Bool, option: Int, completion: @escaping(URL) -> ()) {
+        guard let url = URL(string: "https://api.unsplash.com/photos/random/?client_id=5c92cae8923c68f7f1c821cc2817fa67a841a46059c79ddff27f7f28923c67af") else {
+            return
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        URLSession.shared.dataTask(with: url) { (data, response
+            , error) in
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let data = try decoder.decode(UnsplashData.self, from: data)
+                
+                guard let url = URL(string: (option == 0 ? data.urls.regular : data.urls.raw)) else {
+                    return
+                }
+                
+                if dateFormatter.string(from: date) == dateFormatter.string(from: Date()) && !force {
+                    return
+                }
+                
+                completion(url)
+                
+            } catch let err {
+                print("Err", err)
+            }
+            }.resume()
+    }
+    
     static func checkNASAImage(date: Date, force: Bool, option: Int, completion: @escaping(UIImage?) -> ()) {
         loadNASAImage(date: date, force: force, option: option) { url in
+            DispatchQueue.main.async {
+                if let data = try? Data(contentsOf: url) {
+                    if let downloadedImage = UIImage(data: data) {
+                        completion(downloadedImage)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func checkUnsplashImage(date: Date, force: Bool, option: Int, completion: @escaping(UIImage?) -> ()) {
+        loadUnsplashImage(date: date, force: force, option: option) { url in
             DispatchQueue.main.async {
                 if let data = try? Data(contentsOf: url) {
                     if let downloadedImage = UIImage(data: data) {

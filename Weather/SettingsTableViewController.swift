@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let options:[String] = ["NASA Image of the Day", "Photo Library"]
+    let options:[String] = ["NASA Image of the Day", "Random Photo", "Photo Library", "Camera"]
     
     let imagePickerController = UIImagePickerController()
     
@@ -41,7 +41,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             cell.curveView.backgroundColor = UIColor(rgb: 0x72a6f9)
             cell.curveView.layer.cornerRadius = 5.0
             
-            if options[indexPath.row] != "NASA Image of the Day" {
+            if indexPath.row != 0 && indexPath.row != 1 {
                 cell.qualityControl.isHidden = true
             } else {
                 cell.qualityControl.addTarget(self, action: #selector(self.selectQualityOption), for: .valueChanged)
@@ -80,9 +80,46 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 }
             }
         } else if indexPath.row == 1 {
+            let alert = UIAlertController(title: nil, message: "Randomizing...", preferredStyle: .alert)
+            
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+            loadingIndicator.startAnimating();
+            
+            alert.view.addSubview(loadingIndicator)
+            present(alert, animated: true, completion: nil)
+            
+            let cell = tableView.cellForRow(at: indexPath)
+            
+            if let cell = cell as? SettingsTableViewCell {
+                SettingsData.checkUnsplashImage(date: Date(), force: true, option: cell.qualityControl.selectedSegmentIndex) { image in
+                    if let image = image {
+                        SettingsData.saveData(downloadedImage: image, quality: cell.qualityControl.selectedSegmentIndex, option: "Random Photo")
+                    }
+                    let notification = UINotificationFeedbackGenerator()
+                    notification.notificationOccurred(.success)
+                    self.dismiss(animated: true, completion: {
+                        if let navController = self.navigationController {
+                            navController.popViewController(animated: true)
+                        }
+                    })
+                }
+            }
+        } else if indexPath.row == 2 {
             imagePickerController.allowsEditing = false
             imagePickerController.sourceType = .photoLibrary
             present(imagePickerController, animated: true, completion: nil)
+        } else if indexPath.row == 3 {
+            if (!UIImagePickerController.isSourceTypeAvailable(.camera)) {
+                let alertController = UIAlertController(title: "No Camera", message: "This device has no camera.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alertController, animated: true, completion: nil)
+            } else {
+                imagePickerController.allowsEditing = false
+                imagePickerController.sourceType = .camera
+                present(imagePickerController, animated: true, completion: nil)
+            }
         }
     }
     
@@ -105,7 +142,11 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             SettingsData.saveData(downloadedImage: image, quality: 0, option: "Photo Library")
         }
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            if let navController = self.navigationController {
+                navController.popViewController(animated: true)
+            }
+        })
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
