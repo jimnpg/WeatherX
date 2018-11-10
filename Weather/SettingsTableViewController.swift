@@ -23,8 +23,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         imagePickerController.delegate = self
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -41,6 +39,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             cell.titleLabel.text = options[indexPath.row]
             cell.curveView.backgroundColor = UIColor(rgb: 0x72a6f9)
             cell.curveView.layer.cornerRadius = 5.0
+            cell.selectionStyle = .none
             
             if indexPath.row != 0 {
                 cell.colorSlider.isHidden = true
@@ -67,7 +66,9 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             present(alert, animated: true, completion: nil)
             
             if let checkBox = alert.view.subviews[1] as? BEMCheckBox {
-                checkBox.setOn(true, animated: true)
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {_ in
+                    checkBox.setOn(true, animated: true)
+                })
             }
             
             let notification = UINotificationFeedbackGenerator()
@@ -191,8 +192,13 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             self.present(alert, animated: true, completion: nil)
             
             if let checkBox = alert.view.subviews[1] as? BEMCheckBox {
-                checkBox.setOn(true, animated: true)
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {_ in
+                    checkBox.setOn(true, animated: true)
+                })
             }
+            
+            let notification = UINotificationFeedbackGenerator()
+            notification.notificationOccurred(.success)
             
             Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {_ in
                 self.dismiss(animated: true, completion: {

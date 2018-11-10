@@ -116,6 +116,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.imageView.alpha = 0.0
         self.blurView.alpha = 0.0
+        self.view.backgroundColor = UIColor.clear
         
         settings = SettingsData.loadSettings()
         if let settings = settings {
